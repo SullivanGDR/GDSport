@@ -9,7 +9,15 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 
+#[ApiResource(operations:[
+    new GetCollection(normalizationContext:['groups'=>'user:list']),
+    new Get(normalizationContext:['groups'=>'user:item'])
+])]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -17,9 +25,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['user:list','user:item'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Groups(['user:list','user:item'])]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -35,30 +45,39 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $isVerified = false;
 
     #[ORM\Column(length: 20)]
+    #[Groups(['user:list','user:item'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 30)]
+    #[Groups(['user:list','user:item'])]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups(['user:list','user:item'])]
     private ?string $adresse = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['user:list','user:item'])]
     private ?string $pays = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['user:list','user:item'])]
     private ?string $ville = null;
 
     #[ORM\Column(length: 5)]
+    #[Groups(['user:list','user:item'])]
     private ?string $codePostal = null;
 
     #[ORM\ManyToMany(targetEntity: Article::class, inversedBy: 'users')]
+    #[Groups(['user:list','user:item'])]
     private Collection $Favoris;
 
     #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
+    #[Groups(['user:list','user:item'])]
     private ?Panier $panier = null;
 
     #[ORM\OneToMany(mappedBy: 'User', cascade : ['persist'], targetEntity: Commandes::class, orphanRemoval: true)]
+    #[Groups(['user:list','user:item'])]
     private Collection $commandes;
 
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]

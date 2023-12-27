@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AjouterRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AjouterRepository::class)]
 class Ajouter
@@ -14,10 +15,12 @@ class Ajouter
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups(['user:list','user:item'])]
     private ?int $quantite = null;
 
     #[ORM\ManyToOne(inversedBy: 'ajouters')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['user:list','user:item'])]
     private ?Article $produit = null;
 
     #[ORM\ManyToOne(inversedBy: 'ajouters')]
@@ -25,6 +28,7 @@ class Ajouter
     private ?Panier $panier = null;
 
     #[ORM\Column(length: 20)]
+    #[Groups(['user:list','user:item'])]
     private ?string $taille = null;
 
     public function getId(): ?int

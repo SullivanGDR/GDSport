@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CommandesRepository::class)]
 class Commandes
@@ -14,6 +15,7 @@ class Commandes
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['user:list','user:item'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'commandes')]
@@ -24,12 +26,14 @@ class Commandes
     private Collection $ajoutCommandes;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['user:list','user:item'])]
     private ?\DateTimeInterface $DateCommande = null;
 
     #[ORM\Column(length: 255)]
     private ?string $livraison = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['user:list','user:item'])]
     private ?\DateTimeInterface $DateLivraison = null;
 
     #[ORM\Column]

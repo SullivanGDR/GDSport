@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ArticleTailleRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ArticleTailleRepository::class)]
 class ArticleTaille
@@ -18,9 +19,11 @@ class ArticleTaille
     private ?Article $article = null;
 
     #[ORM\Column(length: 10)]
+    #[Groups(['article:list','article:item'])]
     private ?string $taille = null;
 
     #[ORM\Column]
+    #[Groups(['article:list','article:item'])]
     private ?int $quantite = null;
 
     public function getId(): ?int

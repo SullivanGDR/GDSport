@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\AvisRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AvisRepository::class)]
 class Avis
@@ -15,13 +16,16 @@ class Avis
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['article:list','article:item'])]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['article:list','article:item'])]
     private ?string $message = null;
 
     #[ORM\ManyToOne(inversedBy: 'avis')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['article:list','article:item'])]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'avis')]
@@ -29,6 +33,7 @@ class Avis
     private ?Article $article = null;
 
     #[ORM\Column]
+    #[Groups(['article:list','article:item'])]
     private ?int $note = null;
 
     public function getId(): ?int

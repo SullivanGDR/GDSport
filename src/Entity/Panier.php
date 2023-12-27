@@ -6,6 +6,7 @@ use App\Repository\PanierRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PanierRepository::class)]
 class Panier
@@ -19,6 +20,7 @@ class Panier
     private ?User $user = null;
 
     #[ORM\OneToMany(mappedBy: 'panier', targetEntity: Ajouter::class, orphanRemoval: true)]
+    #[Groups(['user:list','user:item'])]
     private Collection $ajouters;
 
     public function __construct()
