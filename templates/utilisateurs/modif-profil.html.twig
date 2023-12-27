@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{parent()}}Modification
+{% endblock %}
+{# Page du profil utilisateur #}
+{% block body %}
+	{# Container qui contient la route Accueil > Votre compte #}
+	<div class="container-fluid p-3">
+		<a href="{{path('index')}}">Accueil</a>
+		<span>
+			>
+		</span>
+		<span>Votre compte</span>
+	</div>
+	{# Container principal de toutes les informations du client #}
+	<div class="container">
+		<h3 class="mb-3 fw-bold ">Modification de vos informations</h3>
+		<hr class="hr"/>
+		{{ form_start(ModifProfilForm) }}
+		<div class="row g-3">
+			<div class="col-sm-6 text-black">
+				<span>{{ form_row(ModifProfilForm.nom) }} </span>
+			</div>
+			<div class="col-sm-6 text-black">
+				<span>{{ form_row(ModifProfilForm.prenom) }} </span>
+			</div>
+		</div>
+		<hr class="hr"/>
+		<div class="row">
+			<div class="col-md-12 col-lg-12 text-black">
+				{{ form_row(ModifProfilForm.adresse) }}
+			</div>
+			<div class="col-md-12 col-lg-4 text-black">
+				{{ form_row(ModifProfilForm.codePostal) }}
+			</div>
+			<div class="col-md-12 col-lg-4 text-black">
+				{{ form_row(ModifProfilForm.ville) }}
+			</div>
+			<div class="col-md-12 col-lg-4 text-black">
+				{{ form_row(ModifProfilForm.pays) }}
+			</div>
+		</div>
+		{{ form_end(ModifProfilForm) }}
+	</div>
+{% endblock %}
+

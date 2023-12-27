@@ -1,0 +1,507 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{parent()}}Article{% endblock %}
+
+{% block body %}
+
+	<nav aria-label="breadcrumb" class="p-0 mx-5 mt-4 d-none d-md-block">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+				<a href="{{path('index')}}">Accueil</a>
+			</li>
+			{% set genreRoute = article.genre.libelle | lower | replace({' ': '_'}) %}
+			{% set type = article.type.libelle | lower | replace({' ': '_'}) %}
+			{% set typeRoute = genreRoute ~ '-' ~ type %}
+			<li class="breadcrumb-item active" aria-current="page">
+				<a href="{{ path(genreRoute) }}">{{ article.genre.libelle }}</a>
+			</li>
+			<li class="breadcrumb-item active" aria-current="page">
+				<a href="{{ path(typeRoute) }}">{{ article.type.libelle }}</a>
+			</li>
+			<li class="breadcrumb-item active" aria-current="page">
+				{{ article.designation }}
+			</li>
+		</ol>
+	</nav>
+	<div class="container-fluid">
+		<div class="row">
+			<hr class="hr"/>
+			<div class="col-12 col-lg-6 d-flex justify-content-center p-2">
+					<div class="container-fluid" style="display: grid; grid-template-columns: repeat(2,1fr); gap:10px;" id="show">
+					{% if article.getImage()|length > 0 %}
+						{% for image in article.getImage() %}
+						{% set url = 'articles/'~image.name %}
+						<img src="{{asset(url)}}" alt="image introuvable" class="img-fluid img-modal" style="max-width: 100%; height: auto; object-fit: contain; cursor:pointer;"/>
+						{% endfor %}
+					{% endif %}
+					</div>
+			</div>
+			<div class="col-12 col-lg-6">
+				<div class="mt-2 text-black">
+					<span class="fs-2 fw-bold" style="font-family: Arial, Helvetica, sans-serif;">{{ article.designation }}</span><br>
+					<span class="fs-4 opacity-50" style="font-family: Arial, Helvetica, sans-serif;">{{article.genre.libelle}}</span>
+				</div>
+				<div class="mt-2 text-black">
+					<span class="fs-3" style="font-family: Arial, Helvetica, sans-serif;">à partir de {{ article.prix }} €</span><br>
+				</div>
+				<div class="mt-2 mb-2">
+					<div class="d-flex align-items-center justify-content-between">
+						<div class="d-flex fs-4 text-primary">
+						{% if article.note <= 1  %}
+							<i class="bi bi-star-fill"></i>
+							<i class="bi bi-star"></i>
+							<i class="bi bi-star"></i>
+							<i class="bi bi-star"></i>
+							<i class="bi bi-star"></i><span class="fs-4 align-self-center ms-1">({{article.note}})</span>
+						{% elseif article.note > 1 and article.note < 2 %}
+							<i class="bi bi-star-fill"></i>
+							<i class="bi bi-star-half"></i>
+							<i class="bi bi-star"></i>
+							<i class="bi bi-star"></i>
+							<i class="bi bi-star"></i><span class="fs-4 align-self-center ms-1">({{article.note}})</span>
+						{% elseif article.note > 1 and article.note <= 2 %}
+							<i class="bi bi-star-fill"></i>
+							<i class="bi bi-star-fill"></i>
+							<i class="bi bi-star"></i>
+							<i class="bi bi-star"></i>
+							<i class="bi bi-star"></i><span class="fs-4 align-self-center ms-1">({{article.note}})</span>
+						{% elseif article.note > 2 and article.note < 3 %}
+							<i class="bi bi-star-fill"></i>
+							<i class="bi bi-star-fill"></i>
+							<i class="bi bi-star-half"></i>
+							<i class="bi bi-star"></i>
+							<i class="bi bi-star"></i><span class="fs-4 align-self-center ms-1">({{article.note}})</span>
+						{% elseif article.note > 2 and article.note <= 3 %}
+							<i class="bi bi-star-fill"></i>
+							<i class="bi bi-star-fill"></i>
+							<i class="bi bi-star-fill"></i>
+							<i class="bi bi-star"></i>
+							<i class="bi bi-star"></i><span class="fs-4 align-self-center ms-1">({{article.note}})</span>
+						{% elseif article.note > 3 and article.note <= 4 %}
+							<i class="bi bi-star-fill"></i>
+							<i class="bi bi-star-fill"></i>
+							<i class="bi bi-star-fill"></i>
+							<i class="bi bi-star-fill"></i>
+							<i class="bi bi-star"></i><span class="fs-4 align-self-center ms-1">({{article.note|round}})</span>
+						{% elseif article.note > 4 and article.note <= 5 %}
+							<i class="bi bi-star-fill"></i>
+							<i class="bi bi-star-fill"></i>
+							<i class="bi bi-star-fill"></i>
+							<i class="bi bi-star-fill"></i>
+							<i class="bi bi-star-fill"></i><span class="fs-4 align-self-center ms-1">({{article.note|round}})</span>
+							{% else %}
+								
+						{% endif %}
+						</div>
+						<button class="btn btn-primary rounded-0 taille-modal">Guides des tailles</button>
+					</div>
+				</div>
+				{# FORMAT ORDINATEUR #}
+				<section class="d-none d-md-block mt-3 text-black w-50">
+					<div class="text-center mb-2">
+						{% if article.getTailles()|length > 0 %}
+							<form method="post" action="{{path('editpanier', {'id':article.id, 'action':'ajouter', 'page':'article'})}}">
+								<select class="form-select border border-dark border-2" name="taille" style="box-shadow: none;" required>
+									{% for taille in article.getTailles() %}
+										{% if taille.quantite > 10 %}
+											<option class="fw-bold p-3" style="color:green !important;" value="{{ taille.id }}">{{taille.taille}}
+												- En stock</option>
+										{% elseif taille.quantite == 0 %}
+											<option class="fw-bold" style="color:red !important;" disabled>
+												<span class="text-danger">{{taille.taille}}
+													- Rupture</span>
+											</option>
+										{% elseif taille.quantite <= 10 %}
+											<option class="fw-bold" style="color:orange !important;" value="{{ taille.id }}">{{taille.taille}}
+												- Quantité limitée</option>
+										{% endif %}
+									{% endfor %}
+								</select>
+								<div class="d-flex mt-2">
+									<button class="btn btn-primary rounded-0 w-100 {% if app.user %}me-2{% endif %}" type="submit">Ajouter au panier</button>
+									{% if app.user %}
+										{% if article in app.user.Favoris %}
+											<a class="btn rounded-0 border border-primary fs-3" href="{{path('favori', {'id':article.id, 'action':'supprimer', 'page':'article'})}}">
+												<i class="bi bi-suit-heart-fill"></i>
+											</a>
+										{% else %}
+											<a class="btn text-black rounded-0 border border-primary fs-3" href="{{path('favori', {'id':article.id, 'action':'ajouterArticle', 'page':'article'})}}">
+												<i class="bi bi-suit-heart"></i>
+											</a>
+										{% endif %}
+									{% endif %}
+								</div>
+							</form>
+						{% endif %}
+					</div>
+				</section>
+
+				{# FORMAT MOBILE #}
+				<section class="d-block d-md-none mt-3 text-black">
+					<div class="text-center mb-2">
+						{% if article.getTailles()|length > 0 %}
+							<form method="post" action="{{path('editpanier', {'id':article.id, 'action':'ajouter', 'page':'article'})}}">
+								<select class="form-select border border-dark border-2" name="taille" style="box-shadow: none;" required>
+									{% for taille in article.getTailles() %}
+										{% if taille.quantite > 10 %}
+											<option class="fw-bold p-3" style="color:green !important;" value="{{ taille.id }}">{{taille.taille}}
+												- En stock</option>
+										{% elseif taille.quantite == 0 %}
+											<option class="fw-bold" style="color:red !important;" disabled>
+												<span class="text-danger">{{taille.taille}}
+													- Rupture</span>
+											</option>
+										{% elseif taille.quantite <= 10 %}
+											<option class="fw-bold" style="color:orange !important;" value="{{ taille.id }}">{{taille.taille}}
+												- Quantité limitée</option>
+										{% endif %}
+									{% endfor %}
+								</select>
+								<div class="d-flex mt-2">
+									<button class="btn btn-primary rounded-0 w-100 {% if app.user %}me-2{% endif %}" type="submit">Ajouter au panier</button>
+									{% if app.user %}
+										{% if article in app.user.Favoris %}
+											<a class="btn rounded-0 border border-primary fs-3" href="{{path('favori', {'id':article.id, 'action':'supprimer', 'page':'article'})}}">
+												<i class="bi bi-suit-heart-fill"></i>
+											</a>
+										{% else %}
+											<a class="btn text-black rounded-0 border border-primary fs-3" href="{{path('favori', {'id':article.id, 'action':'ajouterArticle', 'page':'article'})}}">
+												<i class="bi bi-suit-heart"></i>
+											</a>
+										{% endif %}
+									{% endif %}
+								</div>
+							</form>
+						{% endif %}
+					</div>
+					<div class="mt-3 mb-3 border border-bottom-0 text-black p-0" style="border-color:grey !important;">
+						<div class="border-bottom p-3" style="border-color:grey !important;">
+							<svg viewbox="0 0 24 24" width="1.5em" height="1.5em" fill="currentColor" aria-labelledby="livraison-express-:R1a:" class="zds-icon RC794g X9n9TI DlJ4rT _5Yd-hZ _4F506m H3jvU7" focusable="false" aria-hidden="false" role="img">
+								<title id="livraison-express-:R1a:">Livraison Express</title>
+								<path d="M2.231 8.25h2.282a.75.75 0 0 0 0-1.5H2.231a.75.75 0 0 0 0 1.5zm2.266 3a.75.75 0 0 0 0-1.5H.753a.75.75 0 0 0 0 1.5h3.744zm.016 3.001a.75.75 0 0 0 0-1.5H2.21a.75.75 0 0 0 0 1.5h2.303z"></path>
+								<path d="m23.81 11.501-3.368-3.738a.754.754 0 0 0-.557-.248h-3.378V4.497a.75.75 0 0 0-.75-.75H3.711a.75.75 0 0 0 0 1.5l11.298-.004.003 10.513-4.953.004c-.519-.897-1.478-1.508-2.588-1.508s-2.07.61-2.588 1.508H3.712a.75.75 0 1 0 0 1.5h.76a2.999 2.999 0 0 0 5.998 0h5.276l.76.003a2.999 2.999 0 0 0 5.997 0h.749a.75.75 0 0 0 .75-.75v-4.51a.751.751 0 0 0-.193-.502zm-16.338 7.25a1.5 1.5 0 1 1 0-2.999 1.5 1.5 0 0 1 0 2.999zm12.032 0a1.5 1.5 0 1 1 0-2.999 1.5 1.5 0 0 1 0 2.999zm2.998-2.988h-.408a2.987 2.987 0 0 0-2.59-1.511 2.987 2.987 0 0 0-2.59 1.511h-.402l-.003-6.748h3.042l2.95 3.278v3.47z"></path>
+							</svg>
+							<div class="d-flex justify-content-between">
+								<p class="m-0" style="font-weight: 700; font-family: Arial, Helvetica, sans-serif;">1 à 2 jours ouvrés</p>
+								<p class="m-0" style="font-weight: 700; font-family: Arial, Helvetica, sans-serif;">9.95 €</p>
+							</div>
+							<p>Livraison Express</p>
+							<a href="#" class="nav-link" style="font-weight: 700; color:#6328e0; font-family: Arial, Helvetica, sans-serif;">Cliquez ici pour en savoir plus !</a>
+						</div>
+						<div class="border-bottom p-3" style="border-color:grey !important;">
+							<svg viewbox="0 0 24 24" width="1.5em" height="1.5em" fill="currentColor" aria-labelledby="livraison-standard-:R1i:" class="zds-icon RC794g X9n9TI DlJ4rT _5Yd-hZ _4F506m H3jvU7" focusable="false" aria-hidden="false" role="img">
+								<title id="livraison-standard-:R1i:">Livraison Standard</title>
+								<path d="m23.807 11.497-3.365-3.735a.754.754 0 0 0-.557-.247H16.51V4.5a.75.75 0 0 0-.75-.75H3.007a.75.75 0 0 0-.75.75v12.008c0 .414.336.75.75.75h1.467a2.999 2.999 0 0 0 5.997 0h6.035a2.999 2.999 0 0 0 5.997 0h.746a.75.75 0 0 0 .75-.75V12a.751.751 0 0 0-.193-.503zm-4.256-2.482 2.949 3.274v3.468h-.408c-.519-.896-1.477-1.506-2.587-1.506s-2.068.61-2.587 1.506h-.404v-.96l-.002-5.782h3.039zM3.758 5.25H15.01l.001 3.01v.005l.003 7.492H10.06c-.518-.896-1.476-1.506-2.586-1.506s-2.068.61-2.587 1.506H3.758V5.25zm3.716 13.5a1.5 1.5 0 1 1 0-2.998 1.5 1.5 0 0 1 0 2.998zm12.031 0a1.5 1.5 0 1 1 0-2.998 1.5 1.5 0 0 1 0 2.998z"></path>
+							</svg>
+							<div class="d-flex justify-content-between">
+								<p class="m-0" style="font-weight: 700; font-family: Arial, Helvetica, sans-serif;">{{ date5|date('D. j ') ~ (date5|date('F')) }}
+									-
+									{{ date7|date('D. j ') ~ (date7|date('F')) }}</p>
+								<p class="m-0" style="font-weight: 700; font-family: Arial, Helvetica, sans-serif;">Gratuit</p>
+							</div>
+							<p class="m-0">Livraison Standard</p>
+						</div>
+						<div class="border-bottom p-3 d-flex" style="border-color:black !important;">
+							<svg viewbox="0 0 24 24" width="1.5em" height="1.5em" fill="currentColor" class="zds-icon RC794g X9n9TI DlJ4rT _5Yd-hZ SpRgR2 _4F506m H3jvU7" focusable="false" aria-hidden="true">
+								<path d="M14.25 4.33H1.939l3.056-3.055A.75.75 0 0 0 3.934.215L.658 3.49a2.252 2.252 0 0 0 0 3.182l3.276 3.275a.75.75 0 0 0 1.06-1.06L1.94 5.83h12.31c4.557 0 8.251 3.694 8.251 8.25s-3.695 8.42-8.251 8.42h-12a.75.75 0 0 0 0 1.5h12c5.385 0 9.75-4.534 9.75-9.919s-4.365-9.75-9.75-9.75z"></path>
+							</svg>
+							<p class="m-0 ms-2" style="font-weight: 700; font-family: Arial, Helvetica, sans-serif;">Retour gratuit sous 30 jours</p>
+						</div>
+					</div>
+				</section>
+
+				{# FORMAT ORDINATEUR #}
+				<div class="mt-3 col-6 border border-bottom-0 text-black d-none d-md-block" style="border-color:grey !important;">
+					<div class="border-bottom p-3" style="border-color:grey !important;">
+						<svg viewBox="0 0 24 24" width="1.5em" height="1.5em" fill="currentColor" aria-labelledby="livraison-express-:R1a:" class="zds-icon RC794g X9n9TI DlJ4rT _5Yd-hZ _4F506m H3jvU7" focusable="false" aria-hidden="false" role="img"><title id="livraison-express-:R1a:">Livraison Express</title><path d="M2.231 8.25h2.282a.75.75 0 0 0 0-1.5H2.231a.75.75 0 0 0 0 1.5zm2.266 3a.75.75 0 0 0 0-1.5H.753a.75.75 0 0 0 0 1.5h3.744zm.016 3.001a.75.75 0 0 0 0-1.5H2.21a.75.75 0 0 0 0 1.5h2.303z"></path><path d="m23.81 11.501-3.368-3.738a.754.754 0 0 0-.557-.248h-3.378V4.497a.75.75 0 0 0-.75-.75H3.711a.75.75 0 0 0 0 1.5l11.298-.004.003 10.513-4.953.004c-.519-.897-1.478-1.508-2.588-1.508s-2.07.61-2.588 1.508H3.712a.75.75 0 1 0 0 1.5h.76a2.999 2.999 0 0 0 5.998 0h5.276l.76.003a2.999 2.999 0 0 0 5.997 0h.749a.75.75 0 0 0 .75-.75v-4.51a.751.751 0 0 0-.193-.502zm-16.338 7.25a1.5 1.5 0 1 1 0-2.999 1.5 1.5 0 0 1 0 2.999zm12.032 0a1.5 1.5 0 1 1 0-2.999 1.5 1.5 0 0 1 0 2.999zm2.998-2.988h-.408a2.987 2.987 0 0 0-2.59-1.511 2.987 2.987 0 0 0-2.59 1.511h-.402l-.003-6.748h3.042l2.95 3.278v3.47z"></path></svg>
+						<div class="d-flex justify-content-between">
+							<p class="m-0" style="font-weight: 700; font-family: Arial, Helvetica, sans-serif;">1 à 2 jours ouvrés</p>
+							<p class="m-0" style="font-weight: 700; font-family: Arial, Helvetica, sans-serif;">9.95 €</p>
+						</div>
+						<p>Livraison Express</p>
+						<a href="#" class="nav-link" style="font-weight: 700; color:#6328e0; font-family: Arial, Helvetica, sans-serif;">Cliquez ici pour en savoir plus !</a>
+					</div>
+					<div class="border-bottom p-3" style="border-color:grey !important;">
+						<svg viewBox="0 0 24 24" width="1.5em" height="1.5em" fill="currentColor" aria-labelledby="livraison-standard-:R1i:" class="zds-icon RC794g X9n9TI DlJ4rT _5Yd-hZ _4F506m H3jvU7" focusable="false" aria-hidden="false" role="img"><title id="livraison-standard-:R1i:">Livraison Standard</title><path d="m23.807 11.497-3.365-3.735a.754.754 0 0 0-.557-.247H16.51V4.5a.75.75 0 0 0-.75-.75H3.007a.75.75 0 0 0-.75.75v12.008c0 .414.336.75.75.75h1.467a2.999 2.999 0 0 0 5.997 0h6.035a2.999 2.999 0 0 0 5.997 0h.746a.75.75 0 0 0 .75-.75V12a.751.751 0 0 0-.193-.503zm-4.256-2.482 2.949 3.274v3.468h-.408c-.519-.896-1.477-1.506-2.587-1.506s-2.068.61-2.587 1.506h-.404v-.96l-.002-5.782h3.039zM3.758 5.25H15.01l.001 3.01v.005l.003 7.492H10.06c-.518-.896-1.476-1.506-2.586-1.506s-2.068.61-2.587 1.506H3.758V5.25zm3.716 13.5a1.5 1.5 0 1 1 0-2.998 1.5 1.5 0 0 1 0 2.998zm12.031 0a1.5 1.5 0 1 1 0-2.998 1.5 1.5 0 0 1 0 2.998z"></path></svg>
+						<div class="d-flex justify-content-between">
+							<p class="m-0" style="font-weight: 700; font-family: Arial, Helvetica, sans-serif;">{{ date5|date('D. j ') ~ (date5|date('F')) }} - {{ date7|date('D. j ') ~ (date7|date('F')) }}</p>
+							<p class="m-0" style="font-weight: 700; font-family: Arial, Helvetica, sans-serif;">Gratuit</p>
+						</div>
+						<p class="m-0">Livraison Standard</p>
+					</div>
+					<div class="border-bottom p-3 d-flex" style="border-color:black !important;">
+						<svg viewBox="0 0 24 24" width="1.5em" height="1.5em" fill="currentColor" class="zds-icon RC794g X9n9TI DlJ4rT _5Yd-hZ SpRgR2 _4F506m H3jvU7" focusable="false" aria-hidden="true"><path d="M14.25 4.33H1.939l3.056-3.055A.75.75 0 0 0 3.934.215L.658 3.49a2.252 2.252 0 0 0 0 3.182l3.276 3.275a.75.75 0 0 0 1.06-1.06L1.94 5.83h12.31c4.557 0 8.251 3.694 8.251 8.25s-3.695 8.42-8.251 8.42h-12a.75.75 0 0 0 0 1.5h12c5.385 0 9.75-4.534 9.75-9.919s-4.365-9.75-9.75-9.75z"></path></svg>
+						<p class="m-0 ms-2" style="font-weight: 700; font-family: Arial, Helvetica, sans-serif;">Retour gratuit sous 30 jours</p>
+					</div>
+				</div>
+			</div>
+			<hr class="hr m-0"/>
+		</div>
+	</div>
+	<div class="container-fluid fs-4">
+		<div class="d-flex">
+			<a class="p-3 nav-link text-black border-bottom border-1 border-dark" id="description">Descriptif</a>
+			<a class="p-3 nav-link text-black" id="livraison">Livraison</a>
+			<a class="p-3 nav-link text-black" id="retour">Retour</a>
+		</div>
+		<div class="description p-3">
+			<div class="text-black fs-6">
+				{{article.description}}
+			</div>
+		</div>
+		<div class="livraison d-none">
+			<div class="text-black fs-6">
+17.99€ pour les DOM TOM<br><br>
+5 à 7 jours ouvrés<br>
+<br>
+Livraison en magasin click & collect : Gratuite<br>
+<br>
+Livraison Express : 9,95 €<br>
+Délai de livraison: 72h (Jours ouvrés)<br>
+*Cette méthode de livraison est disponible uniquement pour les produits expédiés de nos entrepôts en France.<br>
+<br>
+Livraison Standard : Gratuite<br>
+*Cette méthode de livraison est disponible uniquement pour les produits expédiés de nos entrepôts en France.<br>
+<br>
+La livraison à domicile est assurée et sécurisée.<br>
+Les délais de livraison sont de 5 à 7 jours ouvrés. Nous vous tiendrons informés d’éventuels changements. Livraison Standard dans les DOM TOM et Monaco sous 7 à 14 jours ouvrés.<br>
+<br>
+Soyez assuré que nous prendrons directement en charge tout frais de douane occasionné.<br>
+<br>
+La veille de la livraison de votre commande, notre transporteur vous enverra un email et un sms de notification vous informant de son passage. Dans le cas où vous souhaiteriez être livré un autre jour ou préféreriez que votre commande soit envoyée à votre bureau de Poste de proximité ou un Point Relais®, nous vous prions de répondre à travers la notification du transporteur avant minuit.<br>
+			</div>
+		</div>
+		<div class="retour d-none">
+			<div class="text-black fs-6">
+Droit de rétractation<br>
+<br>
+Vous disposez d'un droit légal de rétractation. En Votre qualité de consommateur au sens des dispositions du Code de la consommation, vous disposez d'un délai de quatorze (14) jours pour exercer Votre droit de rétractation à compter de la date de réception des Produits par Vous-même ou tout destinataire sans avoir à motiver Votre décision.<br>
+<br>
+Pour exercer Votre droit de rétractation, Vous devez : (a) Nous informer au moyen d'une déclaration dénuée d'ambiguïté de Votre décision de Vous rétracter de ce Contrat en complétant le formulaire type de rétractation disponible en copiant ce lien dans votre navigateur https://s3-4674.nuage-peda.fr/GDSport/public/formulaire-de-retractation/ (et reproduit après les présentes) ou en Nous informant par écrit (en ce compris par email); et (b) Nous retourner les Produits en bon état et sans les avoir utilisés (si possible dans leur emballage d'origine) dans les quatorze (14) jours de la communication de Votre décision de vous rétracter. Vous ne supportez que les coûts directs de renvoi des Produits. Nous Vous communiquerons, sans délai un accusé de réception de la rétractation via email.<br>
+<br>
+Nous vous rembourserons les sommes perçues auprès de vous, en ce compris les coûts standards de livraison (mais pas les coûts supplémentaires résultant de Votre choix d'un autre mode de livraison) pas plus tard que quatorze (14) jours calendaires à compter de la date à laquelle Nous avons réceptionné les Produits ou avons reçu la preuve de l'expédition de ces derniers, la date retenue étant celle du premier de ces faits (et bien entendu à la condition d'avoir reçu la notification de Votre rétractation conformément aux dispositions qui précèdent). Nous procéderons au remboursement en utilisant le même moyen de paiement que celui que Vous avez utilisé pour procéder à l'achat des Produits.<br>
+<br>
+Les frais standards de livraison correspondent à un montant forfaitaire, par conséquent en cas de retour partiel de la commande (quelques Produits seulement) ces frais ne pourront être remboursés.<br>
+Votre responsabilité ne peut être engagée qu'en cas de dépréciation des Produits résultant de manipulations autres que celles nécessaires pour établir la nature, les caractéristiques et le bon fonctionnement de ces Produits.<br>
+Veuillez noter que le droit de rétractation ne peut pas être exercé pour :<br>
+<br>
+La fourniture de Produits fabriqués selon Vos spécifications ou personnalisés ;<br>
+<br>
+La fourniture de Produits qui ont été descellés par Vous après la livraison et qui ne peuvent être renvoyés pour des raisons d'hygiène ou de protection de la santé ; ou<br>
+<br>
+La fourniture de Produits qui, après la livraison, sont par nature indissociables d'autres articles (par exemple les Produits vendus par lots et par paires comme les maillots de bain deux pièces, les chaussettes, etc.).<br>
+<br>
+Nos coordonnées sont:<br>
+<br>
+Website: https://s3-4674.nuage-peda.fr/GDSport/public<br>
+Email: serviceclient@gdsports.fr<br>
+Téléphone: +33 3 74 32 01 71 (Les tarifs standard s'appliquent et aucuns frais supplémentaires ne s'appliquent à ce numéro).<br>
+<br>
+Adresse en France:<br>
+<br>
+Arras<br>
+62000<br>
+FRANCE<br>
+<br>
+Vous pouvez nous renvoyer vos articles en remplissant le formulaire via la procédure Rebound en copiant le lien suivant: https://retour.gdsports.fr/<br>
+Tous les retours en France métropolitaine sont gratuits.<br>
+Vous pouvez également nous retourner les Produits selon les conditions et modalités mentionnées ci-avant au sein de l'un de Nos magasins dans le pays d'achat accompagnés du justificatif d'achat. Ce service vous permet de retourner votre commande gratuitement. Cependant, vous pouvez utiliser un autre service de retour si vous le souhaitez. Pour plus d'informations sur votre droit légal de rétractation, nous vous invitons à consulter nos Conditions Générales https://www.gdsports.fr/conditions-generales<br>
+			</div>
+		</div>
+	</div>
+	
+	<div class="container">
+		<div class="row d-block text-center">
+			<h2>Avis</h2>
+			<div class="d-flex">
+				{% for avis in avisArticle %}
+					<div class="bg-white p-3 rounded shadow w-25 mx-2 my-3">
+						<div class="d-block">{{ avis.user.prenom }} {{ avis.note }}/5</div>
+						{{ avis.message }}
+					</div>
+
+				{% endfor %}
+			</div>
+			{% if app.user %}
+			<div class="d-flex justify-content-center">{{ form(form) }}</div>
+			{% endif %}
+		</div>
+
+	</div>
+
+	<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="imageModalLabel">{{ article.designation }}<br><span class="fs-6 opacity-50">{{article.genre.libelle}}</span></h5>
+					<div class="btn btn-secondary"><i class="bi bi-x-lg" id="closeImageModal"></i></div>
+				</div>
+				<div class="modal-body">
+					<img src="" alt="image introuvable" class="img-fluid" id="modal-image">
+					<span></span>
+				</div>
+				<div class="modal-footer grid justify-content-center">
+					<div class="text-center">
+						{% for image in article.getImage() %}
+							{% set url = 'articles/'~image.name %}
+							<img src="{{asset(url)}}" alt="image introuvable" class="img-fluid" style="max-width: 20%; height: auto; object-fit: contain; cursor:pointer;" onclick="setImage('{{asset(url)}}')"/>
+						{% endfor %}
+					</div>
+					<a href="#" class="btn btn-primary rounded-0">Ajouter au panier</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="tailleModal" tabindex="-1" role="dialog" aria-labelledby="tailleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="tailleModalLabel">Guides des tailles de GDSport</h5>
+					<div class="btn btn-secondary"><i class="bi bi-x-lg" id="closeTailleModal"></i></div>
+				</div>
+				<div class="modal-body">
+					<table class="table text-center">
+						<thead>
+							<tr>
+								<th scope="col" class="p-0 ps-3 pb-3">Taille</th>
+								<th scope="col" class="p-0 ps-3 pb-3">Longueur du pied (cm)</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th scope="row" class="p-1">35</th>
+								<td class="p-1">21.8</td>
+							</tr>
+							<tr>
+								<th class="p-1" scope="row">36</th>
+								<td class="p-1">22.5</td>
+							</tr>
+							<tr>
+								<th scope="row" class="p-1">37</th>
+								<td class="p-1">23.1</td>
+							</tr>
+							<tr>
+								<th scope="row" class="p-1">38</th>
+								<td class="p-1">23.8</td>
+							</tr>
+							<tr>
+								<th scope="row" class="p-1">39</th>
+								<td class="p-1">24</td>
+							</tr>
+							<tr>
+								<th scope="row" class="p-1">40</th>
+								<td class="p-1">24.5</td>
+							</tr>
+							<tr>
+								<th scope="row" class="p-1">41</th>
+								<td class="p-1">25.2</td>
+							</tr>
+							<tr>
+								<th scope="row" class="p-1">42</th>
+								<td class="p-1">26</td>
+							</tr>
+							<tr>
+								<th scope="row" class="p-1">43</th>
+								<td class="p-1">26.8</td>
+							</tr>
+							<tr>
+								<th scope="row" class="p-1">44</th>
+								<td class="p-1">27.8</td>
+							</tr>
+							<tr>
+								<th scope="row" class="p-1">45</th>
+								<td class="p-1">28.6</td>
+							</tr>
+							<tr>
+								<th scope="row" class="p-1">46</th>
+								<td class="p-1">29.4</td>
+							</tr>
+							<tr>
+								<th scope="row" class="p-1">47</th>
+								<td class="p-1">30.2</td>
+							</tr>
+							<tr>
+								<th scope="row" class="p-1">48</th>
+								<td class="p-1">31.4</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		$(document).ready(function () {
+			var descriptionLink = $("#description");
+  			var livraisonLink = $("#livraison");
+  			var retourLink = $("#retour");
+
+			var descriptionDiv = $(".description");
+  			var livraisonDiv = $(".livraison");
+  			var retourDiv = $(".retour");
+
+
+  			function resetLinks() {
+    			descriptionLink.removeClass().addClass("p-3 nav-link text-black");
+    			livraisonLink.removeClass().addClass("p-3 nav-link text-black");
+    			retourLink.removeClass().addClass("p-3 nav-link text-black");
+  			}
+			function resetDivs() {
+    			descriptionDiv.removeClass().addClass("description d-none");
+    			livraisonDiv.removeClass().addClass("livraison d-none");
+    			retourDiv.removeClass().addClass("retour d-none");
+  			}
+
+			
+			$('#description').click(function () {
+				resetLinks();
+				$("#description").removeClass().addClass("p-3 nav-link text-black border-bottom border-1 border-dark");
+				resetDivs();
+				$(".description").removeClass().addClass("description p-3")
+				$(".description").show();
+			});
+			$('#livraison').click(function () {
+				resetLinks();
+				$("#livraison").removeClass().addClass("p-3 nav-link text-black  border-bottom border-1 border-dark");
+				resetDivs();
+				$(".livraison").removeClass().addClass("livraison p-3")
+				$(".livraison").show();
+			});
+			$('#retour').click(function () {
+				resetLinks();
+				$("#retour").removeClass().addClass("p-3 nav-link text-black border-bottom border-1 border-dark")
+				resetDivs();
+				$(".retour").removeClass().addClass("retour p-3")
+				$(".retour").show()
+			});
+		});
+	</script>
+
+	<script>
+		$(document).ready(function () {
+			$('.img-modal').click(function () {
+				var src = $(this).attr('src');
+				$('#modal-image').attr('src', src);
+				$('#imageModal').modal('show');
+			});
+			$('#closeImageModal').click(function () {
+				$('#imageModal').modal('hide');
+	 		});
+		});
+		$(document).ready(function () {
+			$('.taille-modal').click(function () {
+				$('#tailleModal').modal('show');
+			});
+			$('#closeTailleModal').click(function () {
+				$('#tailleModal').modal('hide');
+	 		});
+		});
+	</script>
+	<script>
+		function setImage(src) {
+				$('#modal-image').attr('src', src);
+			}
+	</script>
+
+{% endblock %}

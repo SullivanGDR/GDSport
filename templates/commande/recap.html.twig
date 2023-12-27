@@ -1,0 +1,90 @@
+<div class="container rounded-5 shadow mt-3 mb-3 p-5">
+    <h1 class="pb-4 text-center display-4">GDSPORTS</h1>
+    <hr>
+    <div>
+        <h4 class="text-center pt-3" >Merci pour votre commande ! <i class="bi bi-check-circle"></i></h4>
+        <p class="text-center m-2">Nous la traitons de suite <i class="bi bi-truck"></i></p>
+        <p class="text-center m-2">Nous vous enverrons bientôt une confirmation d'expédition.</p>
+        <p class="text-center m-2 pb-3">Votre commande sera peut-être expédiée en plusieurs fois.</p>
+    </div>
+    <hr>
+    <div>
+        <h4 class="text-center pt-3">Date de livraison estimée :</h4>
+        <p class="text-center m-0">{{ commande.dateLivraison|date('d/m/Y') }}</p>
+        <p class="text-center pb-2">Livraison {{ commande.livraison }}</p>
+    </div>
+    <hr>
+    <div class="text-center">
+        <h4 class="text-center pt-3">Adresse de livraison :</h4>
+        <p class="m-0">{{ infoCommande.nom }} {{ infoCommande.prenom }}</p>
+        <p class="m-0">{{ infoCommande.adresse }}</p>
+        <p class="m-0">{{ infoCommande.ville }} {{ infoCommande.codePostal }}</p>
+        <p class="m-0">{{ infoCommande.pays }}</p>
+    </div>
+    <hr>
+    <div class="text-center">
+        <h4 class="text-center pt-3">Adresse de facturation :</h4>
+        <p class="m-0">{{ infoCommande.nom }} {{ infoCommande.prenom }}</p>
+        <p class="m-0">{{ infoCommande.adresse }}</p>
+        <p class="m-0">{{ infoCommande.ville }} {{ infoCommande.codePostal }}</p>
+        <p class="m-0">{{ infoCommande.pays }}</p>
+    </div>
+    <hr>
+    <div class="text-center">
+        <h4 class="text-center pt-3">En cours de traitement :</h4>
+        <div class="container mt-5 d-none d-lg-block">
+            <div class="row mb-4 d-flex justify-content-between align-items-center mt-4 text-center">
+                <div class="col-2"></div>
+                <div class="col-2">
+                    Article
+                </div>
+                <div class="col-2">
+                    Quantité
+                </div>
+                <div class="col-2">
+                    Prix unité
+                </div>
+                <div class="col-2">
+                    Prix total
+                </div>
+            </div>
+            <hr>
+            {% set totalArticle = 0 %}
+            {% for ligneC in ligneCommande %}
+                <div class="row mb-4 d-flex justify-content-between align-items-center mt-4 text-center">
+                    <div class="col-2">
+                        {% set url = 'articles/'~ligneC.article.image[0].name %}
+                        <img src="{{asset(url)}}" style="max-width: 100%; height: auto; object-fit: contain;"/>
+                    </div>
+                    <div class="col-2">
+                        <h6 class="text-muted">{{ ligneC.article.type.libelle }}</h6>
+                        <h6 class="text-black mb-0">{{ ligneC.article.designation }}</h6>
+                        <h6 class="text-black mb-0">{{ ligneC.taille }}</h6>
+                    </div>
+                    <div class="col-2 d-flex justify-content-center">
+                        <span class="nav-link text-black">{{ ligneC.quantite }}</span>
+                    </div>
+                    <div class="col-2">
+                        <h6 class="mb-0">{{ ligneC.article.prix }}.00€</h6>
+                    </div>
+                    <div class="col-2">
+                        <h6 class="mb-0">{% set totalArticle = totalArticle + (ligneC.article.prix *  ligneC.quantite) %} {{ ligneC.article.prix *  ligneC.quantite }}.00€</h6>
+                    </div>
+                </div>
+                <hr>
+            {% endfor %}
+        </div>
+    </div>
+    <div>
+        {% set livraison = 00.00 %}
+        <h5 class="pt-3">Récapitulatif de votre commande :</h5>
+        <p class="m-0">Sous-total : {{ totalArticle }} €</p>
+        <p class="m-0">Frais de port : {% if commande.livraison == "express" %} {% set livraison = 9.95 %}{% endif %}{{ livraison}} €</p>
+        <p class="m-0">Total de la commande : {{ totalArticle + livraison }} €</p>
+        <p class="m-0">TVA inclue 0%</p>
+        <p class="m-0">Réduction totale : 0.00 € </p>
+    </div>
+
+    <h4 class="mb-3 text-center d-none d-md-block">à bientot ! <i class="bi bi-check-circle"></i></h4>
+
+</div>

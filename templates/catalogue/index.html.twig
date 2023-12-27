@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{parent()}}Catalogue
+{% endblock %}
+
+{% block body %}
+	<select id="categorieSelect">
+		<option value="">Toutes les catégories</option>
+		{% for genre in genres %}
+			<option value="{{ genre.id }}">{{ genre.libelle }}</option>
+		{% endfor %}
+	</select>
+
+	<ul id="produitsList">
+		{% for article in articles %}
+			<li id="{{ article.genre.id }}">
+				{{ article.designation }}
+				-
+				{{ article.prix }} € - {{ article.genre.libelle }}
+			</li>
+		{% endfor %}
+	</ul>
+
+	<script>
+		// Récupérer la référence du select et l'élément <ul>
+	var select = document.getElementById('categorieSelect');
+	var ul = document.getElementById('produitsList');
+
+	// Écouter l'événement "change" sur le select
+	select.addEventListener('change', function () {
+	var selectedCategoryId = select.value;
+	// Récupérer la valeur de la catégorie sélectionnée
+
+	// Parcourir tous les <li> de la liste des produits
+	for (var i = 0; i < ul.children.length; i++) {
+	var li = ul.children[i];
+	var productId = li.id;
+	// Récupérer l'ID du produit associé au <li>
+
+	// Vérifier si la catégorie du produit correspond à la catégorie sélectionnée
+	if (productId === selectedCategoryId) {
+	li.style.display = ''; // Afficher le produit
+	} else {
+	li.style.display = 'none'; // Masquer le produit
+	}
+	}
+	});
+	</script>
+
+
+
+
+{% endblock %}
+
+{# Faire une page HOMME FEMME JUNIOR, plus de catalogue général, sur chaque page un controller ou on recup les produits homme femme enfant puis une page par type d'article, comme JDSPORT #}

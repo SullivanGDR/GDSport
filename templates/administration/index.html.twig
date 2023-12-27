@@ -1,0 +1,272 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{parent()}}Administration{% endblock %}
+
+{% block body %}
+    <div class="d-none d-md-block">
+        <div class="container-fluid d-flex m-0 p-0">
+            <div class="col-2 bg-white text-black border-end border-dark">
+                <h5 class="text-center p-4 m-0">Administration</h5>
+                <ul class="nav row ps-4 fs-4">
+                    <li class="nav-title">Navigation</li>
+                    <li class="nav-item py-2">
+                        <a data-bs-toggle="collapse" href="#sidebarDashboards" aria-expanded="false" aria-controls="sidebarDashboards" class="nav-link">
+                            <i class="bi bi-clipboard-data pe-2"></i>
+                            <span>
+                                Dashboard
+                            </span>
+                        </a>
+                        <div id="sidebarDashboards">
+                            <ul class="nav flex-column ps-4 fs-4">
+                                <li>
+                                    <a href="{{path('administration')}}" class="nav-link">Vue d'ensemble</a>
+                                </li>
+                                <li>
+                                    <a href="{{path('liste-article')}}" class="nav-link">Produits</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="nav-link">Commandes</a>
+                                </li>
+                                <li>
+                                    <a href="{{path('liste-clients')}}" class="nav-link">Clients</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item py-2">
+                        <a data-bs-toggle="collapse" href="#sidebarCommandes" aria-expanded="false" aria-controls="sidebarCommandes" class="nav-link">
+                            <i class="bi bi-truck pe-2"></i>
+                            <span>
+                                Commandes
+                            </span>
+                        </a>
+                        <div id="sidebarCommandes">
+                            <ul class="nav flex-column ps-4 fs-4">
+                                <li>
+                                    <a href="#" class="nav-link">Remboursements</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="nav-link">Retours</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="nav-link">Annulations</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item py-2">
+                        <a data-bs-toggle="collapse" href="#sidebarProduits" aria-expanded="false" aria-controls="sidebarProduits" class="nav-link">
+                            <i class="bi bi-bag pe-2"></i>
+                            <span>
+                                Produits
+                            </span>
+                        </a>
+                        <div id="sidebarProduits">
+                            <ul class="nav flex-column ps-4 fs-4">
+                                <li>
+                                    <a href="{{path('ajout-produit')}}" class="nav-link">Ajout d'un produit</a>
+                                </li>
+                                <li>
+                                    <a href="{{path('liste-article')}}" class="nav-link">Modifier un produit</a>
+                                </li>
+                                <li>
+                                    <a href="{{path('liste-article')}}" class="nav-link">Supprimer un produit</a>
+                                </li>
+                                <li>
+                                    <a href="{{path('liste-article')}}" class="nav-link">Liste des produits</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item py-2">
+                        <a data-bs-toggle="collapse" href="#sidebarClients" aria-expanded="false" aria-controls="sidebarClients" class="nav-link">
+                            <i class="bi bi-person pe-2"></i>
+                            <span>
+                                Clients
+                            </span>
+                        </a>
+                        <div id="sidebarClients">
+                            <ul class="nav flex-column ps-4 fs-4">
+                                <li>
+                                    <a href="{{path('liste-clients')}}" class="nav-link">Liste des clients</a>
+                                </li>
+                                <li>
+                                    <a href="{{path('supprimer-client1')}}" class="nav-link">Supprimer un client</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="nav-link">Messages</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="nav-link">Avis</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-10 text-black">
+                <div class="d-flex justify-content-between mx-5 m-3">
+                    <div class="rounded shadow bg-white text-center p-5">
+                        <h5>Nombre de clients :</h5>
+                        {{ users|length }}
+                    </div>
+                    <div class="rounded shadow bg-white text-center p-5">
+                        <h5>Nombre d'articles :</h5>
+                        {{ articles|length }}
+                    </div>
+                    <div class="rounded shadow bg-white text-center p-5">
+                        <h5>Revenus :</h5>
+                        {% set total = 0 %}
+                        {% for commande in commandes %}
+                            {% set total = total + commande.totalPrix %}
+                        {% endfor %}
+                        {{ total }} €
+                    </div>
+                    <div class="rounded shadow bg-white text-center p-5">
+                        <h5>Nombre de commandes :</h5>
+                        {{ commandes|length }}
+                    </div>
+                </div>
+                <div>
+                    <canvas id="myChart"></canvas>
+                </div>
+
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+                <script>
+                const ctx = document.getElementById('myChart');
+
+                new Chart(ctx, { 
+                    type: 'bar',
+                    data: {
+                        labels: ['Clients', 'Articles', 'Commandes', 'Messages'],
+                        datasets: [{
+                            label: 'Statistiques du site',
+                            data: [{{ users|length }}, {{ articles|length }}, {{ commandes|length }}, 20],
+                            backgroundColor: [
+                                'rgba(255, 99, 132)',
+                                'rgba(54, 162, 235)',
+                                'rgba(255, 206, 86)',
+                                'rgba(75, 192, 192)'
+                            ]
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+                </script>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="d-block d-md-none">
+        <div class="container-fluid m-0 p-0">
+            <div class="col-12 bg-white text-black">
+                <h5 class="text-center p-4 m-0">Administration</h5>
+                <ul class="nav row ps-4 fs-4">
+                    <li class="nav-title">Navigation</li>
+                    <li class="nav-item py-2">
+                        <a data-bs-toggle="collapse" href="#sidebarDashboards" aria-expanded="false" aria-controls="sidebarDashboards" class="nav-link">
+                            <i class="bi bi-clipboard-data pe-2"></i>
+                            <span>
+                                Dashboard
+                            </span>
+                        </a>
+                        <div id="sidebarDashboards">
+                            <ul class="nav flex-column ps-4 fs-4">
+                                <li>
+                                    <a href="{{path('administration')}}" class="nav-link">Vue d'ensemble</a>
+                                </li>
+                                <li>
+                                    <a href="{{path('liste-article')}}" class="nav-link">Produits</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="nav-link">Commandes</a>
+                                </li>
+                                <li>
+                                    <a href="{{path('liste-clients')}}" class="nav-link">Clients</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item py-2">
+                        <a data-bs-toggle="collapse" href="#sidebarCommandes" aria-expanded="false" aria-controls="sidebarCommandes" class="nav-link">
+                            <i class="bi bi-truck pe-2"></i>
+                            <span>
+                                Commandes
+                            </span>
+                        </a>
+                        <div id="sidebarCommandes">
+                            <ul class="nav flex-column ps-4 fs-4">
+                                <li>
+                                    <a href="#" class="nav-link">Remboursements</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="nav-link">Retours</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="nav-link">Annulations</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item py-2">
+                        <a data-bs-toggle="collapse" href="#sidebarProduits" aria-expanded="false" aria-controls="sidebarProduits" class="nav-link">
+                            <i class="bi bi-bag pe-2"></i>
+                            <span>
+                                Produits
+                            </span>
+                        </a>
+                        <div id="sidebarProduits">
+                            <ul class="nav flex-column ps-4 fs-4">
+                                <li>
+                                    <a href="{{path('ajout-produit')}}" class="nav-link">Ajout d'un produit</a>
+                                </li>
+                                <li>
+                                    <a href="{{path('liste-article')}}" class="nav-link">Modifier un produit</a>
+                                </li>
+                                <li>
+                                    <a href="{{path('liste-article')}}" class="nav-link">Supprimer un produit</a>
+                                </li>
+                                <li>
+                                    <a href="{{path('liste-article')}}" class="nav-link">Liste des produits</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item py-2">
+                        <a data-bs-toggle="collapse" href="#sidebarClients" aria-expanded="false" aria-controls="sidebarClients" class="nav-link">
+                            <i class="bi bi-person pe-2"></i>
+                            <span>
+                                Clients
+                            </span>
+                        </a>
+                        <div id="sidebarClients">
+                            <ul class="nav flex-column ps-4 fs-4">
+                                <li>
+                                    <a href="{{path('liste-clients')}}" class="nav-link">Liste des clients</a>
+                                </li>
+                                <li>
+                                    <a href="{{path('supprimer-client1')}}" class="nav-link">Supprimer un client</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="nav-link">Messages</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="nav-link">Avis</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,144 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{parent()}}Aide{% endblock %}
+
+{% block body %}
+
+<div class="d-none d-md-block">
+	<section class="container p-3 shadow" style="font-family: DS Source Sans,Source Sans,sans-serif;">
+		<div class="p-3">
+			<h3>Réponses rapides</h2>
+			<hr>
+		</div>
+		<div class="d-flex justify-content-between m-5">
+			<div>
+				<div class="fw-bold text-black d-flex">
+					<i class="bi bi-arrow-left-right pe-2"></i>
+					<span>Retours et échanges</span>
+				</div>
+				<hr>
+				<a href="{{path('aide-retours-et-echanges-online')}}" class="nav-link mb-2">Retours et échanges en ligne</a>
+				<a href="{{path('aide-retours-et-echanges-magasin')}}" class="nav-link mb-2">Retours et échanges en magasin</a>
+				<a href="{{path('aide-qualite')}}" class="nav-link mb-2">Qualité de la marchandise</a>
+				<a href="#" class="nav-link mb-2">Suivre mon retour</a>
+				<a href="#" class="nav-link mb-2">Commerce mon retour</a>
+			</div>
+			<div>
+				<div class="fw-bold text-black d-flex">
+					<i class="bi bi-file-text pe-2"></i>
+					<span>Assistance</span>
+				</div>
+				<hr>
+				<a href="#" class="nav-link mb-2">Suivre ma commande</a>
+				<a href="#" class="nav-link mb-2">Consulter ma commande</a>
+				<a href="#" class="nav-link mb-2">Modifier ou annuler<br>ma commande</a>
+					<a href="#" class="nav-link mb-2">Problème avec ma<br>
+						commande actuelle</a>
+				</div>
+				<div>
+					<div class="fw-bold text-black d-flex">
+						<i class="bi bi-bag pe-2"></i>
+						<span>Aide aux achats</span>
+					</div>
+					<hr>
+					<a href="#" class="nav-link mb-2">Cartes et cartes électroniques</a>
+					<a href="#" class="nav-link mb-2">Livraison et traitement</a>
+				</div>
+			</div>
+		</section>
+
+		<section class="container p-3 shadow mt-5" style="font-family: DS Source Sans,Source Sans,sans-serif;">
+			<div class="p-3">
+				<h3>Nous conctater</h2>
+				<hr>
+			</div>
+			<div class="row">
+				<div class="col-8">
+					<div class="px-3">
+						<i class="text-black bi bi-chat-right-text"></i>
+						<span class="fw-bold text-black">ENVOYER UN MESSAGE AU SUPPORT</span>
+					</div>
+					<div class="px-3 mt-3">
+						{{ form_start(form) }}
+						{{ form_label(form.mail, 'Votre e-mail', {'label_attr': {'class': 'fw-bold text-black'}}) }}
+						{{ form_row(form.mail) }}
+						{{ form_label(form.message, 'Votre message', {'label_attr': {'class': 'fw-bold text-black'}}) }}
+						{{ form_row(form.message) }}
+						{{ form_end(form) }}
+						<div class="text-center">
+							<span>Nos équipes vous répondrons par mail dès que possible,<br>Surveillez bien votre boîte mail pour ne pas nous rater !</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-4">
+					<div>
+						<i class="text-info bi bi-twitter"></i>
+						<h6>Nous contacter par Twitter</h6>
+						<p class="m-0">Tweetez toutes vos questions à</p>
+						<a href="#">@GDSport</a>
+					</div>
+					<hr>
+					<div>
+						<i class="text-black bi bi-envelope"></i>
+						<h6>Nous contacter par Mail</h6>
+						<a href="#">Envoyer un e-mail</a>
+					</div>
+					<hr>
+					<div>
+						<i class="text-success bi bi-telephone"></i>
+						<h6>Nous contacter par Téléphone</h6>
+						<a href="#">03 20 20 14 15</a>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+
+
+{# FORMAT MOBILE#}
+<div class="d-block d-md-none">
+	<section class="container-fluid" style="font-family: DS Source Sans,Source Sans,sans-serif;">
+		<div class="p-3">
+			<h3>Réponses rapides</h2>
+			<hr>
+		</div>
+        <div>
+            <div class="fw-bold text-black d-flex">
+                <i class="bi bi-arrow-left-right pe-2"></i>
+                <span>Retours et échanges</span>
+            </div>
+            <hr>
+            <a href="{{path('aide-retours-et-echanges-online')}}" class="nav-link mb-2">Retours et échanges en ligne</a>
+            <a href="{{path('aide-retours-et-echanges-magasin')}}" class="nav-link mb-2">Retours et échanges en magasin</a>
+            <a href="{{path('aide-qualite')}}" class="nav-link mb-2">Qualité de la marchandise</a>
+            <a href="#" class="nav-link mb-2">Suivre mon retour</a>
+            <a href="#" class="nav-link mb-2">Commerce mon retour</a>
+        </div>
+        <div>
+            <div class="fw-bold text-black d-flex">
+                <i class="bi bi-file-text pe-2"></i>
+                <span>Assistance</span>
+            </div>
+            <hr>
+            <a href="#" class="nav-link mb-2">Suivre ma commande</a>
+            <a href="#" class="nav-link mb-2">Consulter ma commande</a>
+            <a href="#" class="nav-link mb-2">Modifier ou annuler<br>ma commande</a>
+                <a href="#" class="nav-link mb-2">Problème avec ma<br>
+                    commande actuelle</a>
+            </div>
+            <div>
+                <div class="fw-bold text-black d-flex">
+                    <i class="bi bi-bag pe-2"></i>
+                    <span>Aide aux achats</span>
+                </div>
+                <hr>
+                <a href="#" class="nav-link mb-2">Cartes et cartes électroniques</a>
+                <a href="#" class="nav-link mb-2">Livraison et traitement</a>
+            </div>
+        </div>
+		</section>
+	</div>
+
+
+{% endblock %}
+

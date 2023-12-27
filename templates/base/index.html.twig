@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{parent()}}Accueil{% endblock %}
+
+{% block body %}
+	<body>
+		<section class="mt-5">
+			<div class="container-fluid px-4 px-lg-5">
+				<div class="row row-cols-1 row-cols-md-3 row-cols-xl-4 justify-content-center">
+					<div class="col mb-5">
+						<div class="card border-0">
+							<img class="card-img rounded-bottom-0" src="image/homme.webp" alt="..."/>
+							<div class="card-img-overlay text-center mt-5">
+								<h1 class="card-title text-cold text-white">HOMME</h1>
+								<a href="{{path('homme')}}" class="nav-link text-center border-0 rounded-pill bg-white text-black p-3 position-absolute top-50 start-50 translate-middle">Découvrir</a><br>
+							</div>
+						</div>
+					</div>
+					<div class="col mb-5">
+						<div class="card border-0">
+							<img class="card-img rounded-bottom-0" src="image/femme.webp" alt="..."/>
+							<div class="card-img-overlay text-center mt-5">
+								<h1 class="card-title text-cold text-white">FEMME</h1>
+								<a href="{{path('femme')}}" class="nav-link text-center border-0 rounded-pill bg-white text-black p-3 position-absolute top-50 start-50 translate-middle">Découvrir</a><br>
+							</div>
+						</div>
+					</div>
+					<div class="col mb-5">
+						<div class="card border-0">
+							<img class="card-img rounded-bottom-0 " src="image/enfant.webp" alt="..."/>
+							<div class="card-img-overlay text-center mt-5">
+								<h1 class="card-title text-cold text-white">ENFANT</h1>
+								<a href="{{path('junior')}}" class="nav-link text-center border-0 rounded-pill bg-white text-black p-3 position-absolute top-50 start-50 translate-middle">Découvrir</a><br>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<h1 class="text-center text-primary pt-4 fw-bold">🔥 Tendances 🔥</h1>
+		<div class="d-flex justify-content-center">
+			<hr class="hr w-25 justify-content-center"/>
+		</div>
+		<section class="p-0">
+			<div class="container-fluid px-3 px-lg-5">
+				<div class="row gx-4 gx-lg-5 ">
+					{% for article in tousArticles %}
+						{% if article.tendance.yesorno == 'yes' %}
+							<div class="px-1 px-lg-2 col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3 mb-5">
+								<a href="{{path('article',{'id':article.id})}}" class="nav-link">
+									<div class="card border-0 rounded-0">
+									{% if article.image | length > 0 %}
+										{% set url1 = 'articles/'~article.image[0].name %}
+										{% set url2 = 'articles/'~article.image[1].name %}
+										<img src="{{asset(url1)}}" class="card-img-top rounded-0" onmouseover="this.src='{{asset(url2)}}';" onmouseout="this.src='{{asset(url1)}}';"/>
+										<div class="card-body p-0" style="background-color:#f8f9fa;">
+											<p class="card-text text-black mb-0">{{article.designation}}</p>
+											<p class="card-text mb-0">{{article.genre.libelle}}</p>
+											<p class="card-text text-black">{{article.prix}}€</p>
+										</div>
+									{% endif %}	
+									</div>
+								</a>
+							</div>
+						{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+		</section>
+
+		<h1 class="text-black text-center boder">NIKE</h1>
+		<div class="d-flex justify-content-center">
+			<hr class="hr w-50 justify-content-center"/>
+		</div>
+        <div class="row m-2">
+            <div class="col-12 col-md-6">
+                <img src="image/decouvrirnike.webp" class="img-fluid rounded-0 w-100"/>
+            </div>
+            <div class="col-12 col-md-6">
+                <img src="image/decouvrirnike2.jpg" class="img-fluid rounded-0 w-100"/>
+            </div>
+        </div>
+		<div class="text-center mt-3">
+			<a href="{{path('decouvrir-nike')}}" class="btn btn-secondary border border-dark rounded-pill" id="HoverBoutonsNike">Découvrir</a>
+		</div>
+		<div class="d-flex justify-content-center">
+			<hr class="hr w-25 justify-content-center"/>
+		</div>
+
+		<h1 class="text-center text-primary mt-2 fw-bold">Nos marques partenaires</h1>
+		<div class="overflow-x-scroll d-flex align-items-center m-2 m-md-5">
+			<img class="mb-3" src="image/adidas.png"/>
+			<img class="mb-3" src="image/adidasv2.png"/>
+			<img class="mb-3" src="image/puma.png"/>
+			<img class="mb-3" src="image/adidas.png"/>
+			<img class="mb-3" src="image/adidasv2.png"/>
+			<img class="mb-3" src="image/puma.png"/>
+			<img class="mb-3" src="image/adidas.png"/>
+			<img class="mb-3" src="image/adidasv2.png"/>
+			<img class="mb-3" src="image/puma.png"/>
+			<img class="mb-3" src="image/adidas.png"/>
+			<img class="mb-3" src="image/adidasv2.png"/>
+			<img class="mb-3" src="image/puma.png"/>
+			<img class="mb-3" src="image/adidas.png"/>
+			<img class="mb-3" src="image/adidasv2.png"/>
+			<img class="mb-3" src="image/puma.png"/>
+		</div>
+	</body>
+{% endblock %}
+

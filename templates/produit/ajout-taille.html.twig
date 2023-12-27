@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{parent()}}Ajout de tailles
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+	{% for flashMessage in app.session.flashbag.get('error') %}
+		<div class="alert alert-danger mt-3">{{ flashMessage }}</div>
+	{% endfor %}
+	{% for flashMessage in app.session.flashbag.get('success') %}
+		<div class="alert alert-success mt-3">{{ flashMessage }}</div>
+	{% endfor %}
+
+		<div class="row justify-content-center">
+			<div class="col-12 col-md-8 p-4 m-3 bg-white text-primary rounded-5 shadow">
+			<a href="{{path('administration')}}" class="btn btn-secondary border shadow"><i class="bi bi-arrow-left"></i> Administration</a>
+				<h1 class="text-center text-primary fw-bold">Ajout de tailles</h1>
+				{{form(form)}}
+				</div>
+			</div>
+		</div>
+		<div class="container bg-white shadow rounded-5 p-3 mb-3">
+			<div class="row mb-4 d-flex justify-content-between align-items-center mt-4 text-center">
+				<h1 class="text-center text-primary fw-bold">Tailles de l'article</h1>
+				<div class="col-2">
+					Taille
+				</div>
+				<div class="col-2">
+					Quantité
+				</div>
+				<div class="col-2">
+					Supprimer la taille
+				</div>
+			</div>
+			{% for t in tailles %}
+				<div class="row mb-4 d-flex justify-content-between align-items-center mt-4 text-center">
+					<div class="col-2">
+						<h6>{{ t.taille }}</h6>
+					</div>
+					<div class="col-2">
+						<h6 class="mb-0">{{ t.quantite }}</h6>
+					</div>
+					<div class="col-2">
+						<a href="{{path('supprimer-taille', {'id':t.id})}}"><i class="bi bi-x"></i></a>
+					</div>
+				</div>
+				<hr>
+			{% endfor %}
+		</div>
+	{% endblock %}
+
+ 

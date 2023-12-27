@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vos informations{% endblock %}
+
+{% block body %}
+<div class="container-fluid d-flex offset-lg-1">
+	<div class="col-12 col-md-12 col-lg-7 bg-white p-5 text-black m-0 mt-3 mb-3 m-lg-3 rounded-5 shadow">
+		<h4 class="mb-3">Vos informations</h4>
+		{{ form_start(form) }}
+		<div class="row g-3">
+			<div class="col-sm-6">
+				{{ form_row(form.nom) }}
+			</div>
+			<div class="col-sm-6">
+				{{ form_row(form.prenom) }}
+			</div>
+
+            <div class="col-12">
+				{{ form_label(form.cardNumber, 'Numéro de la carte', {'label_attr': {'class': 'fw-bold'}}) }}
+                {{ form_row(form.cardNumber) }}
+			</div>
+
+			<div class="col-md-9">
+				{{ form_label(form.date, 'Date de fin', {'label_attr': {'class': 'fw-bold'}}) }}
+                {{ form_row(form.date) }}
+			</div>
+
+			<div class="col-md-3">
+				{{ form_label(form.cvv, 'CVV', {'label_attr': {'class': 'fw-bold'}}) }}
+                {{ form_row(form.cvv) }}
+			</div>
+		</div>
+		{{ form_end(form) }}
+	</div>
+	<div class="col-md-3 col-lg-3 bg-white p-5 text-black m-3 rounded-5 shadow d-none d-lg-block offset-lg-1" style="max-height:576px;">
+		<h4 class="mb-3">Récapitulatif</h4>
+		<div class="scrollable">
+			{% set total = 0 %}
+			{% for a in app.user.panier.ajouters |sort((a, b) => b.quantite <=> a.quantite) %}
+				<div class="row mb-4 d-flex align-items-center mt-4 text-center">
+					<div class="d-flex">
+						<h6 class="text-muted">{{ a.quantite }}
+							x
+							{{ a.produit.designation }}
+							-</h6>
+						<h6 class="text-black mb-0 ms-2">{{ a.taille }}</h6>
+					</div>
+					<div class="d-flex">
+						<h6 class="mb-0">Total :
+							{{ a.produit.prix *  a.quantite }}.00€</h6>
+						{% set total = total + (a.produit.prix *  a.quantite) %}
+					</div>
+				</div>
+			{% endfor %}
+			<hr>
+			{% if infoCommande.livraison == "express" %}
+				{% set livraison = 9.95 %}
+			{% else %}
+				{% set livraison = 0 %}
+			{% endif %}
+			<div>Total article(s) : {{total}} €</div>
+			<div>Réduction(s) : 0.0 €</div>
+			<div>Frais de livraison : {{ livraison }} €</div>
+			<hr>
+			<div class="mb-3">Total de la commande : {{ total + livraison }} €</div>
+		</div>
+	</div>
+</div>
+<style>
+	.scrollable {
+		height: 100%; /* hauteur maximale de la zone de défilement */
+		overflow-y: scroll; /* affiche une barre de défilement verticale si le contenu dépasse la hauteur de la zone de défilement */
+	}
+	.scrollable::-webkit-scrollbar {
+		width: 5px;
+		height: 5px;
+		background-color: transparent; /* supprime le fond de la barre de défilement */
+	}
+
+	.scrollable::-webkit-scrollbar-thumb {
+		background-color: grey; /* couleur de la barre de défilement */
+		border-radius: 10px; /* arrondi les coins de la barre de défilement */
+	}
+</style>
+
+{% endblock %}

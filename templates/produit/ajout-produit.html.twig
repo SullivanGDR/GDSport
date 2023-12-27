@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{parent()}}Ajouter un fichier
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-7 bg-white p-4 m-3 text-primary rounded-5 shadow">
+                <a href="{{path('administration')}}" class="btn btn-secondary text-black border shadow"><i class="bi bi-arrow-left"></i> Administration</a>
+                <h1 class="text-center text-primary fw-bold">Ajouter un produit</h1>
+                {{ form(form) }}
+            </div>
+        </div>    
+    </div>
+{% endblock %} 
+ 
+ 
+ 

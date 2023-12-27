@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{parent()}}Votre compte
+{% endblock %}
+{# Page du profil utilisateur #}
+{% block body %}
+	{# Container qui contient la route Accueil > Votre compte #}
+	<div class="container-fluid p-3">
+		<a href="{{path('index')}}">Accueil</a>
+		<span>
+			>
+		</span>
+		<span>Votre compte</span>
+	</div>
+	{# Container principal de toutes les informations du client #}
+	<div class="container">
+		<h3 class="mb-3 fw-bold ">Vos informations</h3>
+		<hr class="hr"/>
+		<div class="row">
+			<div class="col-md-7 col-lg-8 text-black">
+				<span>{{app.user.nom}} {{app.user.prenom}}</span><br>
+				<span>{{app.user.email}}</span>
+			</div>
+		</div>
+		<hr class="hr"/>
+		<div class="row">
+			<div class="col-md-7 col-lg-8 text-black">
+				<span class="fw-bold">Votre adresse</span><br>
+						{# Test simple : si le champ est null, on retourne un texte, sinon le champ #}
+						{% if app.user.adresse == NULL %}
+							<span>Aucune adresse, </span>
+							{% else %}
+							<span>{{app.user.adresse}}, </span>
+						{% endif %}
+						{% if app.user.codePostal == NULL %}
+							<span>aucun code postal, </span>
+							{% else %}
+							<span>{{app.user.codePostal}} </span>
+						{% endif %}
+						{% if app.user.ville == NULL %}
+							<span>aucune ville<br></span>
+							{% else %}
+							<span class="text-uppercase">{{app.user.ville}}<br></span>
+						{% endif %}
+						{% if app.user.pays == NULL %}
+							<span>Aucun pays</span>
+							{% else %}
+							<span>{{app.user.pays}}</span>
+						{% endif %}
+			</div>
+		</div>
+		<hr class="hr"/>
+		<div class="row">
+			<div class="col-md-7 col-lg-12 text-black">
+				{# SYSTEME DE COMMANDE A FINIR #}
+				<span class="fw-bold">Vos commandes</span><br>
+				{% if app.user.getCommandes()|length > 0 %}
+					{% for commande in app.user.getCommandes() %}
+						<div class="d-flex justify-content-between p-3">
+							<span>Numéro de commande : {{ commande.id }}</span>
+							<span class="d-none d-md-block">Date : {{ commande.dateCommande | date("d/m/Y à H:m") }}</span>
+							<span class="d-none d-md-block">Livraison prévue le : {{ commande.dateLivraison | date("d/m/Y") }}</span>
+							<a href="{{ path('commande-recap', {'id':commande.id})}}"><span><i class="bi bi-eye"></i> Voir la commande</span></a>
+						</div>
+					{% endfor %}
+				{% else %}
+					<span>Aucune commande récente ..</span><br>
+				{% endif %}
+			</div>
+		</div>
+		<hr class="hr"/>
+		<div class="row">
+			<div class="col-md-7 col-lg-8 text-black">
+				{# Permet au client de changer son mot de passe #}
+				<span class="fw-bold">Changer de mot de passe</span><br>
+                <span>Pour modifier ou réinitialiser votre mot de passe <a href="{{ path('app_forgot_password_request') }}">cliquez ici</a>.</p>
+			</div>
+		</div>
+		<hr class="hr"/>
+		<div class="d-block d-md-flex text-center justify-content-center mb-2">
+			<a href="{{path('modif-profil',{'id':app.user.id})}}" class="nav-link mx-2 my-1"><button class="btn btn-primary">MODIFIER VOTRE PROFIL</button></a>
+			<a href="{{ path('app_logout') }}" class="nav-link mx-2 my-1"><button class="btn btn-danger">Déconnexion</button></a>
+		</div>
+	</div>
+{% endblock %}

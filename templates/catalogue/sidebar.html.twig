@@ -1,0 +1,146 @@
+<div class="container-fluid mt-3 ps-5 col-2 border-2 border-black d-none d-lg-block">
+	<h4>Vêtements</h4>
+	{# <ul class="list-unstyled text-black">
+    {% for t in type %}
+        <a href="{{path('catalogue', {'type':t.libelle,'action':'RechercheType'})}}" class="nav-link"><li class="mb-2">{{ t.libelle }}</li></a>
+    {% endfor %}
+		<hr class="hr"/>
+	</ul> #}
+	{% for t in type %}
+	<div class="text-black">
+		<input type="checkbox" class="filter" data-filter="{{ t.libelle }}">
+		<label>{{ t.libelle }}</label>
+	</div>
+	{% endfor %}
+	<h4>Sexe</h4>
+	<div class="text-black">
+		<input type="checkbox" id="homme" name="homme">
+		<label for="homme">Homme</label>
+	</div>
+	<div class="text-black">
+		<input type="checkbox" id="femme" name="femme">
+		<label for="femme">Femme</label>
+	</div>
+	<hr class="hr text-black"/>
+	<h4>Prix</h4>
+	<div class="text-black">
+		<a href="{{path('catalogue',{'action':'Moins50'})}}">Moins de 50 €</a>
+	</div>
+	<div class="text-black">
+		<a href="{{path('catalogue',{'action':'50a100'})}}">Entre 50 € et 100 €</a>
+	</div>
+	<div class="text-black">
+		<a href="{{path('catalogue',{'action':'100a150'})}}">Entre 100 € et 150 €</a>
+	</div>
+	<div class="text-black">
+		<a href="{{path('catalogue',{'action':'PlusDe150'})}}">Plus de 150 €</a>
+	</div>
+	<hr class="hr text-black"/>
+	<h4>Marque</h4>
+	<div class="text-black">
+		<input type="checkbox" id="nike" name="nike">
+		<label for="nike">Nike</label>
+	</div>
+	<div class="text-black">
+		<input type="checkbox" id="adidas" name="adidas">
+		<label for="adidas">Adidas</label>
+	</div>
+	<div class="text-black">
+		<input type="checkbox" id="puma" name="puma">
+		<label for="puma">Puma</label>
+	</div>
+	<div class="text-black">
+		<input type="checkbox" id="tnf" name="tnf">
+		<label for="tnf">The North Face</label>
+	</div>
+	<hr class="hr text-black"/>
+	<div class="d-flex justify-content-center">
+		<button type="button" class="btn btn-primary text-white">Effacer les filtres</button>
+	</div>
+</div>
+<div class="container-fluid d-flex d-md-none col-12 fixed-bottom p-0">
+	<button class="w-100 btn btn-secondary border border-dark rounded-0">
+		<i class="bi bi-sliders"></i>
+		Filtrer</button>
+	<button class="w-100 btn btn-primary rounded-0" id="trier" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+		<i class="bi bi-funnel"></i>
+		Trier par</button>
+</div>
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+	<div class="offcanvas-header">
+		<h5 class="offcanvas-title" id="offcanvasExampleLabel">
+			<i class="bi bi-funnel"></i>
+			Trier par</h5>
+		<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+	</div>
+	<div class="offcanvas-body">
+		<h4>Vêtements</h4>
+		<ul class="list-unstyled text-black">
+			<li class="mb-2">Accessoires</li>
+			<li class="mb-2">Sweat à capuche</li>
+			<li class="mb-2">Sweat-shirts</li>
+			<li class="mb-2">Vestes</li>
+			<li class="mb-2">Chemises</li>
+			<li class="mb-2">T-shirts</li>
+			<li class="mb-2">Ceintures</li>
+			<li class="mb-2">Jeans</li>
+			<li class="mb-2">Pantalons</li>
+			<li class="mb-2">Short et Bermudas</li>
+			<li class="mb-2">Jupes et Robes</li>
+			<li class="mb-2">Joggings</li>
+			<li class="mb-2">Sous-vêtements et Chaussettes</li>
+			<li class="mb-2">Chaussures</li>
+			<hr class="hr"/>
+		</ul>
+		<h4>Sexe</h4>
+		<div class="text-black">
+			<input type="checkbox" id="homme" name="homme">
+			<label for="homme">Homme</label>
+		</div>
+		<div class="text-black">
+			<input type="checkbox" id="femme" name="femme">
+			<label for="femme">Femme</label>
+		</div>
+		<hr class="hr text-black"/>
+		<h4>Prix</h4>
+		<div class="text-black">
+			<input type="checkbox" id="moins50" name="moins50">
+			<label for="moins50">Moins de 50 €</label>
+		</div>
+		<div class="text-black">
+			<input type="checkbox" id="50a100" name="50a100">
+			<label for="50a100">50 € à 100 €</label>
+		</div>
+		<div class="text-black">
+			<input type="checkbox" id="100a150" name="100a150">
+			<label for="100a150">100 € à 150 €</label>
+		</div>
+		<div class="text-black">
+			<input type="checkbox" id="plus150" name="plus150">
+			<label for="plus150">Plus de 150 €</label>
+		</div>
+		<hr class="hr text-black"/>
+		<h4>Marque</h4>
+		<div class="text-black">
+			<input type="checkbox" id="nike" name="nike">
+			<label for="nike">Nike</label>
+		</div>
+		<div class="text-black">
+			<input type="checkbox" id="adidas" name="adidas">
+			<label for="adidas">Adidas</label>
+		</div>
+		<div class="text-black">
+			<input type="checkbox" id="puma" name="puma">
+			<label for="puma">Puma</label>
+		</div>
+		<div class="text-black">
+			<input type="checkbox" id="tnf" name="tnf">
+			<label for="tnf">The North Face</label>
+		</div>
+		<hr class="hr text-black"/>
+		<div class="d-flex justify-content-center">
+			<button type="button" class="btn btn-primary text-white">Effacer les filtres</button>
+		</div>
+	</div>
+</div>

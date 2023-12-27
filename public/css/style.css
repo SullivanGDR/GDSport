@@ -1,0 +1,54 @@
+#HoverPub:hover{
+    opacity: 0.9;
+}
+
+#HoverBoutons:hover{
+    background-color: #f8f9fa;
+    border-radius: 25px;
+}
+
+#HoverBoutonsNike:hover{
+    background-color: black;
+    color: white;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-in-out;
+} 
+
+#HoverBoutonsSearch:hover{
+    background-color: lightgrey;
+    color: black;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-in-out;
+} 
+
+#Decouvrir::before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0%;
+    height: 1px;
+    background-color: white;
+    transition: width 0.3s ease;
+  }
+  
+#Decouvrir:hover::before {
+    width: 25%;
+  }
+
+#Decouvrir2::before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0%;
+    height: 1px;
+    background-color: black;
+    transition: width 0.3s ease;
+  }
+  
+#Decouvrir2:hover::before {
+    width: 25%;
+  }

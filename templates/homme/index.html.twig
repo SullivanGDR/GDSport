@@ -1,0 +1,304 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{parent()}}Homme{% endblock %}
+
+{% block body %}
+{% set vetements = ['Sweats', 'Sweat-shirts', 'Vestes', 'Chemises', 'T-shirts', 'Jeans', 'Pantalons', 'Shorts', 'Joggings', 'Sous-vêtements', 'Chaussettes' ] %}
+    <div class="text-center m-4 d-none d-md-block">
+        <h2>Homme</h2>
+    </div>
+
+	<div class="mx-0 mx-md-5 position-relative">
+		<img src="image/hommehomepage.webp" class="img-fluid rounded-0 w-100 d-block"/>
+        <a class="position-absolute start-50 translate-middle rounded-0 fs-4 p-1 p-md-3 btn btn-secondary" href="{{path('homme-nike')}}" id="HoverBoutonsNike" style="top:75%;">Découvrir</a>
+	</div>
+
+<div class="d-none d-md-block">
+{# Section des vêtements pour homme #}
+    <div class="p-5 mt-5" style="background: rgb(4, 56, 178);">
+        <div class="d-flex justify-content-center">
+            <div class="text-white px-5">
+                <p>
+                    <span class="fs-1" style="font-family: Arial, Helvetica, sans-serif;">Tommy Hilfiger </span><br>
+                    <span class="fs-3" style="font-family: Georgia, 'Times New Roman', Times, serif;">Ne passez pas à côté !</span><br><br>
+                    <span class="fs-5" style="font-family: Georgia, 'Times New Roman', Times, serif;">Découvrez nos gammes de vêtements pour homme</span><br>
+                </p>
+                <a class="fs-5 nav-link fw-bold position-relative" href="{{path('homme-vetements')}}" id="Decouvrir">Découvrir <i class="bi bi-arrow-right"></i></a>
+            </div>
+            <img src="image/hommehomepagevetements.webp" class="img-fluid rounded-0 w-50 d-block"/>
+        </div>
+    </div>
+    <section class="pt-5" style="background: rgb(2, 34, 107);">
+        <div class="container-fluid px-3 px-lg-5">
+            <div class="row gx-4 gx-lg-5 ">
+                <div class="col-12 d-flex justify-content-between">
+                    <h2 class="text-white">Nos vêtements</h2>
+                    <a class="text-white fs-2 mb-2 nav-link fw-bold" href="{{path('homme-vetements')}}" id="Decouvrir">Plus<i class="fs-2 bi bi-plus"></i></a>
+                </div>
+                {% set vetementsArticle = [] %}
+                {% for article in articles %}
+                    {% if article.type.libelle in vetements %}
+                        {% set vetementsArticle = vetementsArticle|merge([article]) %}
+                    {% endif %}
+                {% endfor %}
+                {% for article in vetementsArticle|slice(0, 4) %}
+                        <div class="px-1 px-lg-2 col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3 mb-5">
+                            <a href="{{path('article',{'id':article.id})}}" class="nav-link">
+                                <div class="card border-0 rounded-0">
+                                    {% if article.image | length > 0 %}
+                                        {% set url1 = 'articles/'~article.image[0].name %}
+                                        {% set url2 = 'articles/'~article.image[1].name %}
+                                        <img src="{{asset(url1)}}" class="card-img-top rounded-0" onmouseover="this.src='{{asset(url2)}}';" onmouseout="this.src='{{asset(url1)}}';"/>
+                                        <div class="card-body p-0 text-white" style="background: rgb(2, 34, 107);">
+                                            <p class="card-text mb-0">{{article.designation}}</p>
+                                            <p class="card-text mb-0">{{article.genre.libelle}}</p>
+                                            <p class="card-text">{{article.prix}}€</p>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </a>
+                        </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+{# Section des chaussures pour homme #}
+    <div class="p-5 mt-5" style="background: rgb(26, 26, 26);">
+        <div class="d-flex justify-content-center">
+            <img src="image/hommehomepagesneakers.webp" class="img-fluid rounded-0 w-50 d-block"/>
+            <div class="text-white px-5">
+                <p>
+                    <span class="fs-1" style="font-family: Arial, Helvetica, sans-serif;">Sneakers classiques</span><br>
+                    <span class="fs-3" style="font-family: Georgia, 'Times New Roman', Times, serif;">Retrouvez les plus grands classiques</span><br><br>
+                    <span class="fs-5" style="font-family: Georgia, 'Times New Roman', Times, serif;">Découvrez nos toutes nos chaussures pour homme</span><br>
+                </p>
+                <a class="fs-5 nav-link fw-bold position-relative" href="{{path('homme-chaussures')}}" id="Decouvrir">Découvrir <i class="bi bi-arrow-right"></i></a>
+            </div>
+        </div>
+    </div>
+    <section class="pt-5" style="background: rgb(16, 16, 16);">
+        <div class="container-fluid px-3 px-lg-5">
+            <div class="row gx-4 gx-lg-5 ">
+                <div class="col-12 d-flex justify-content-between">
+                    <h2 class="text-white">Nos chaussures</h2>
+                    <a class="text-white fs-2 mb-2 nav-link fw-bold" href="{{path('homme-chaussures')}}" id="Decouvrir">Plus<i class="fs-2 bi bi-plus"></i></a>
+                </div>
+                {% set chaussures = [] %}
+                {% for article in articles %}
+                    {% if article.type.libelle == 'Chaussures' %}
+                        {% set chaussures = chaussures|merge([article]) %}
+                    {% endif %}
+                {% endfor %}
+                {% for article in chaussures|slice(0, 4) %}
+                        <div class="px-1 px-lg-2 col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3 mb-5">
+                            <a href="{{path('article',{'id':article.id})}}" class="nav-link">
+                                <div class="card border-0 rounded-0">
+                                    {% if article.image | length > 0 %}
+                                        {% set url1 = 'articles/'~article.image[0].name %}
+                                        {% set url2 = 'articles/'~article.image[1].name %}
+                                        <img src="{{asset(url1)}}" class="card-img-top rounded-0" onmouseover="this.src='{{asset(url2)}}';" onmouseout="this.src='{{asset(url1)}}';"/>
+                                        <div class="card-body p-0 text-white" style="background: rgb(16, 16, 16);">
+                                            <p class="card-text mb-0">{{article.designation}}</p>
+                                            <p class="card-text mb-0">{{article.genre.libelle}}</p>
+                                            <p class="card-text">{{article.prix}}€</p>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </a>
+                        </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+{# Section des accessoires pour homme #}
+    <div class="p-5 mt-5" style="background-color: rgb(239, 239, 240);">
+        <div class="d-flex justify-content-center">
+            <div class="text-black px-5">
+                <p>
+                    <span class="fs-1" style="font-family: Arial, Helvetica, sans-serif;">Un âge, un style </span><br>
+                    <span class="fs-3" style="font-family: Georgia, 'Times New Roman', Times, serif;">Pour ajuster votre style </span><br><br>
+                    <span class="fs-5" style="font-family: Georgia, 'Times New Roman', Times, serif;">Découvrez nos tous nos accessoires pour homme</span><br>
+                </p>
+                <a class="fs-5 nav-link fw-bold position-relative" href="{{path('homme-accessoires')}}" id="Decouvrir2">Découvrir <i class="bi bi-arrow-right"></i></a>
+            </div>
+            <img src="image/hommehomepageaccessoires.webp" class="img-fluid rounded-0 w-50 d-block"/>
+        </div>
+    </div>
+    <section class="pt-5" style="background: white;">
+        <div class="container-fluid px-3 px-lg-5">
+            <div class="row gx-4 gx-lg-5 ">
+                <div class="col-12 d-flex justify-content-between">
+                    <h2 class="text-black">Nos accessoires</h2>
+                    <a class="text-black fs-2 mb-2 nav-link fw-bold" href="{{path('homme-accessoires')}}" id="Decouvrir">Plus<i class="fs-2 bi bi-plus"></i></a>
+                </div>
+                {% set accessoires = [] %}
+                {% for article in articles %}
+                    {% if article.type.libelle == 'Accessoires' %}
+                        {% set accessoires = accessoires|merge([article]) %}
+                    {% endif %}
+                {% endfor %}
+                {% for article in accessoires|slice(0, 4) %}
+                        <div class="px-1 px-lg-2 col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3 mb-5">
+                            <a href="{{path('article',{'id':article.id})}}" class="nav-link">
+                                <div class="card border-0 rounded-0">
+                                    {% if article.image | length > 0 %}
+                                        {% set url1 = 'articles/'~article.image[0].name %}
+                                        {% set url2 = 'articles/'~article.image[1].name %}
+                                        <img src="{{asset(url1)}}" class="card-img-top rounded-0" onmouseover="this.src='{{asset(url2)}}';" onmouseout="this.src='{{asset(url1)}}';"/>
+                                        <div class="card-body p-0 text-black" style="background: white;">
+                                            <p class="card-text mb-0">{{article.designation}}</p>
+                                            <p class="card-text mb-0">{{article.genre.libelle}}</p>
+                                            <p class="card-text">{{article.prix}}€</p>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </a>
+                        </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+</div>
+
+<div class="d-block d-md-none">
+    {# Section des vêtements pour homme #}
+    <div class="p-3 mt-5" style="background: rgb(4, 56, 178);">
+            <div class="text-white">
+                <p>
+                    <span class="fs-1" style="font-family: Arial, Helvetica, sans-serif;">Tommy Hilfiger </span><br>
+                    <span class="fs-3" style="font-family: Georgia, 'Times New Roman', Times, serif;">Ne passez pas à côté !</span><br><br>
+                    <span class="fs-5" style="font-family: Georgia, 'Times New Roman', Times, serif;">Découvrez nos gammes de vêtements pour homme</span><br>
+                </p>
+                <a class="fs-5 nav-link fw-bold position-relative" href="{{path('homme-vetements')}}" id="Decouvrir">Découvrir <i class="bi bi-arrow-right"></i></a>
+            </div>
+    </div>
+    <section class="pt-5 d-block" style="background: rgb(2, 34, 107);">
+        <div class="container-fluid px-3 px-lg-5">
+            <div class="row gx-4 gx-lg-5 ">
+                <div class="col-12 d-flex justify-content-between">
+                    <h2 class="text-white">Nos vêtements</h2>
+                    <a class="text-white fs-2 mb-2 nav-link fw-bold" href="{{path('homme-vetements')}}" id="Decouvrir">Plus<i class="fs-2 bi bi-plus"></i></a>
+                </div>
+                {% set vetementsArticle = [] %}
+                {% for article in articles %}
+                    {% if article.type.libelle in vetements %}
+                        {% set vetementsArticle = vetementsArticle|merge([article]) %}
+                    {% endif %}
+                {% endfor %}
+                {% for article in vetementsArticle|slice(0, 4) %}
+                        <div class="px-1 px-lg-2 col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3 mb-5">
+                            <a href="{{path('article',{'id':article.id})}}" class="nav-link">
+                                <div class="card border-0 rounded-0">
+                                    {% if article.image | length > 0 %}
+                                        {% set url1 = 'articles/'~article.image[0].name %}
+                                        {% set url2 = 'articles/'~article.image[1].name %}
+                                        <img src="{{asset(url1)}}" class="card-img-top rounded-0" onmouseover="this.src='{{asset(url2)}}';" onmouseout="this.src='{{asset(url1)}}';"/>
+                                        <div class="card-body p-0 text-white" style="background: rgb(2, 34, 107);">
+                                            <p class="card-text mb-0">{{article.designation}}</p>
+                                            <p class="card-text mb-0">{{article.genre.libelle}}</p>
+                                            <p class="card-text">{{article.prix}}€</p>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </a>
+                        </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+{# Section des chaussures pour homme #}
+    <div class="p-3 mt-5 d-block" style="background: rgb(26, 26, 26);">
+            <div class="text-white">
+                <p>
+                    <span class="fs-1" style="font-family: Arial, Helvetica, sans-serif;">Sneakers classiques</span><br>
+                    <span class="fs-3" style="font-family: Georgia, 'Times New Roman', Times, serif;">Retrouvez les plus grands classiques</span><br><br>
+                    <span class="fs-5" style="font-family: Georgia, 'Times New Roman', Times, serif;">Découvrez nos toutes nos chaussures pour homme</span><br>
+                </p>
+                <a class="fs-5 nav-link fw-bold position-relative" href="{{path('homme-chaussures')}}" id="Decouvrir">Découvrir <i class="bi bi-arrow-right"></i></a>
+            </div>
+    </div>
+    <section class="pt-5 d-block" style="background: rgb(16, 16, 16);">
+        <div class="container-fluid px-3 px-lg-5">
+            <div class="row gx-4 gx-lg-5 ">
+                <div class="col-12 d-flex justify-content-between">
+                    <h2 class="text-white">Nos chaussures</h2>
+                    <a class="text-white fs-2 mb-2 nav-link fw-bold" href="{{path('homme-chaussures')}}" id="Decouvrir">Plus<i class="fs-2 bi bi-plus"></i></a>
+                </div>
+                {% set chaussures = [] %}
+                {% for article in articles %}
+                    {% if article.type.libelle == 'Chaussures' %}
+                        {% set chaussures = chaussures|merge([article]) %}
+                    {% endif %}
+                {% endfor %}
+                {% for article in chaussures|slice(0, 4) %}
+                        <div class="px-1 px-lg-2 col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3 mb-5">
+                            <a href="{{path('article',{'id':article.id})}}" class="nav-link">
+                                <div class="card border-0 rounded-0">
+                                    {% if article.image | length > 0 %}
+                                        {% set url1 = 'articles/'~article.image[0].name %}
+                                        {% set url2 = 'articles/'~article.image[1].name %}
+                                        <img src="{{asset(url1)}}" class="card-img-top rounded-0" onmouseover="this.src='{{asset(url2)}}';" onmouseout="this.src='{{asset(url1)}}';"/>
+                                        <div class="card-body p-0 text-white" style="background: rgb(16, 16, 16);">
+                                            <p class="card-text mb-0">{{article.designation}}</p>
+                                            <p class="card-text mb-0">{{article.genre.libelle}}</p>
+                                            <p class="card-text">{{article.prix}}€</p>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </a>
+                        </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+{# Section des accessoires pour homme #}
+    <div class="p-3 mt-5 d-block" style="background-color: rgb(239, 239, 240);">
+            <div class="text-black">
+                <p>
+                    <span class="fs-1" style="font-family: Arial, Helvetica, sans-serif;">Un âge, un style </span><br>
+                    <span class="fs-3" style="font-family: Georgia, 'Times New Roman', Times, serif;">Pour ajuster votre style </span><br><br>
+                    <span class="fs-5" style="font-family: Georgia, 'Times New Roman', Times, serif;">Découvrez nos tous nos accessoires pour homme</span><br>
+                </p>
+                <a class="fs-5 nav-link fw-bold position-relative" href="{{path('homme-accessoires')}}" id="Decouvrir2">Découvrir <i class="bi bi-arrow-right"></i></a>
+            </div>
+    </div>
+    <section class="pt-5 d-block" style="background: white;">
+        <div class="container-fluid px-3 px-lg-5">
+            <div class="row gx-4 gx-lg-5 ">
+                <div class="col-12 d-flex justify-content-between">
+                    <h2 class="text-black">Nos accessoires</h2>
+                    <a class="text-black fs-2 mb-2 nav-link fw-bold" href="{{path('homme-accessoires')}}" id="Decouvrir">Plus<i class="fs-2 bi bi-plus"></i></a>
+                </div>
+                {% set accessoires = [] %}
+                {% for article in articles %}
+                    {% if article.type.libelle == 'Accessoires' %}
+                        {% set accessoires = accessoires|merge([article]) %}
+                    {% endif %}
+                {% endfor %}
+                {% for article in accessoires|slice(0, 4) %}
+                        <div class="px-1 px-lg-2 col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3 mb-5">
+                            <a href="{{path('article',{'id':article.id})}}" class="nav-link">
+                                <div class="card border-0 rounded-0">
+                                    {% if article.image | length > 0 %}
+                                        {% set url1 = 'articles/'~article.image[0].name %}
+                                        {% set url2 = 'articles/'~article.image[1].name %}
+                                        <img src="{{asset(url1)}}" class="card-img-top rounded-0" onmouseover="this.src='{{asset(url2)}}';" onmouseout="this.src='{{asset(url1)}}';"/>
+                                        <div class="card-body p-0 text-black" style="background: white;">
+                                            <p class="card-text mb-0">{{article.designation}}</p>
+                                            <p class="card-text mb-0">{{article.genre.libelle}}</p>
+                                            <p class="card-text">{{article.prix}}€</p>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </a>
+                        </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

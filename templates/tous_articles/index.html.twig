@@ -1,0 +1,9 @@
+{% for a in tousArticles %}
+	<div class="articlee" id="{{a.id}}">
+		<div class="row text-center text-uppercase">
+			<a href="{{path('article', {'id':a.id})}}" id="HoverBoutonsSearch" class="nav-link">{{ a.designation }}</a>
+            <div class="d-none">{{ a.genre.libelle }}</div>
+            <div class="d-none">{{ a.type.libelle }}</div>
+		</div>
+	</div>
+{% endfor %}

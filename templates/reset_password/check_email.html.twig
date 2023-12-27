@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mot de passe oublié{% endblock %}
+
+{% block body %}
+    <p>
+        Si un compte existe avec cet e-mail, un lien pour modifier votre mot de passe sera envoyé sur celui-ci.
+    </p>
+    <p>Si vous ne recevez pas le-mail vérifiez dans vos spams ou refaite votre demande ici <a href="{{ path('app_forgot_password_request') }}">mot de passe oublié</a>.</p>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{parent()}}Joggings enfants
+{% endblock %}
+
+{% block body %}
+{% set vetements = ['Sweats', 'Sweat-shirts', 'Vestes', 'Chemises', 'T-shirts', 'Jeans', 'Pantalons', 'Jupes', 'Robes', 'Shorts', 'Joggings', 'Sous-vêtements', 'Chaussettes' ] %}
+	<nav aria-label="breadcrumb" class="p-0 mx-5 mt-2 d-none d-lg-flex">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+				<a href="{{path('index')}}">Accueil</a>
+			</li>
+			<li class="breadcrumb-item">
+				<a href="{{path('junior')}}">Junior</a>
+			</li>
+			<li class="breadcrumb-item">
+				<a href="{{path('junior-vetements')}}">Vêtements enfants</a>
+			</li>
+			<li class="breadcrumb-item active" aria-current="page">Joggings</li>
+		</ol>
+	</nav>
+
+	<section class="container-fluid d-flex justify-content-center p-0 m-0">
+		<div class="container-fluid mt-3 ps-5 col-2 border-2 border-black d-none d-lg-block">
+			<h4>Vêtements</h4>
+			{% for typeVetements in vetements %}
+				{% set type = typeVetements | lower | replace({' ': '-'}) %}
+				{% set typeRoute = 'junior' ~ '-' ~ type %}
+				{% set isActive = app.request.get('_route') == typeRoute %}
+				<div class="text-black">
+					<a href="{{path( typeRoute )}}" class="nav-link {{ isActive ? 'fw-bold' : '' }}">{{ typeVetements }}</a>
+				</div>
+			{% endfor %}
+		</div>
+		<section class="p-0 mt-3 col-10" id="products">
+			<div class="container-fluid px-0 px-lg-5 ">
+				<div class="row gx-4 gx-lg-5 ">
+					{% for article in articles %}
+						{% if article.type.libelle == 'Joggings' %}
+						<div class="px-1 px-lg-2 col-6 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-5 product {{ article.type.libelle }}">
+							<a href="{{path('article',{'id':article.id})}}" class="nav-link">
+								<div class="card border-0 rounded-0" id="{{article.id}}">
+									{% set url1 = 'articles/'~article.image[0].name %}
+									{% set url2 = 'articles/'~article.image[1].name %}
+									<img src="{{asset(url1)}}" class="card-img-top rounded-0" onmouseover="this.src='{{asset(url2)}}';" onmouseout="this.src='{{asset(url1)}}';"/>
+									<div class="card-body p-0" style="background-color:#f8f9fa;">
+										<p class="card-text text-black mb-0">{{article.designation}}</p>
+										<p class="card-text mb-0">{{article.genre.libelle}}</p>
+										<p class="card-text text-black">{{article.prix}}€</p>
+										{% if app.user %}
+											{% if article in app.user.Favoris %}
+												<a class="position-absolute top-0 end-0 p-1 m-1 fs-4" href="{{path('favori', {'id':article.id, 'action':'supprimer', 'page':'junior-joggings'})}}">
+													<i class="bi bi-heart-fill text-black"></i>
+												</a>
+											{% else %}
+												<a class="position-absolute top-0 end-0 p-1 m-1 fs-4" href="{{path('favori', {'id':article.id, 'action':'ajouter', 'page':'junior-joggings'})}}">
+													<i class="bi bi-heart text-black"></i>
+												</a>
+											{% endif %}
+										{% endif %}
+									</div>
+								</div>
+							</a>
+						</div>
+						{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+		</section>
+	</section>
+
+{% endblock %}
