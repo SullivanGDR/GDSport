@@ -17,8 +17,8 @@ class FemmeController extends AbstractController
     #[Route('/femme', name: 'femme')]
     public function index(Request $request, EntityManagerInterface $entityManagerInterface): Response
     {
-        $femmeGenre = $this->getDoctrine()->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
-        $articlesFemme = $this->getDoctrine()->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
+        $femmeGenre =$entityManagerInterface->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
+        $articlesFemme =$entityManagerInterface->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
         return $this->render('femme/index.html.twig', [
             'articles' => $articlesFemme
         ]);
@@ -26,8 +26,8 @@ class FemmeController extends AbstractController
     #[Route('/femme/vêtements', name: 'femme-vetements')]
     public function femmeVetements(Request $request, EntityManagerInterface $entityManagerInterface): Response
     {
-        $femmeGenre = $this->getDoctrine()->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
-        $articlesFemme = $this->getDoctrine()->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
+        $femmeGenre =$entityManagerInterface->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
+        $articlesFemme =$entityManagerInterface->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
         
         return $this->render('femme/vetements.html.twig', [
             'articles' => $articlesFemme
@@ -36,8 +36,8 @@ class FemmeController extends AbstractController
     #[Route('/femme/accessoires', name: 'femme-accessoires')]
     public function femmeAccessoires(Request $request, EntityManagerInterface $entityManagerInterface): Response
     {
-        $femmeGenre = $this->getDoctrine()->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
-        $articlesFemme = $this->getDoctrine()->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
+        $femmeGenre =$entityManagerInterface->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
+        $articlesFemme =$entityManagerInterface->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
         return $this->render('femme/accessoires.html.twig', [
             'articles' => $articlesFemme
         ]);
@@ -45,8 +45,8 @@ class FemmeController extends AbstractController
     #[Route('/femme/chaussures', name: 'femme-chaussures')]
     public function femmeChaussures(Request $request, EntityManagerInterface $entityManagerInterface): Response
     {
-        $femmeGenre = $this->getDoctrine()->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
-        $articlesFemme = $this->getDoctrine()->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
+        $femmeGenre =$entityManagerInterface->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
+        $articlesFemme =$entityManagerInterface->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
         return $this->render('femme/chaussures.html.twig', [
             'articles' => $articlesFemme
         ]);
@@ -54,8 +54,8 @@ class FemmeController extends AbstractController
     #[Route('/femme/vêtements/sweats', name: 'femme-sweats')]
     public function femmeSweats(Request $request, EntityManagerInterface $entityManagerInterface): Response
     {
-        $femmeGenre = $this->getDoctrine()->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
-        $articlesFemme = $this->getDoctrine()->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
+        $femmeGenre =$entityManagerInterface->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
+        $articlesFemme =$entityManagerInterface->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
         return $this->render('femme/vetements/sweats.html.twig', [
             'articles' => $articlesFemme
         ]);
@@ -63,8 +63,8 @@ class FemmeController extends AbstractController
     #[Route('/femme/vêtements/sweat-shirts', name: 'femme-sweat-shirts')]
     public function femmeSweatShirts(Request $request, EntityManagerInterface $entityManagerInterface): Response
     {
-        $femmeGenre = $this->getDoctrine()->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
-        $articlesFemme = $this->getDoctrine()->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
+        $femmeGenre =$entityManagerInterface->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
+        $articlesFemme =$entityManagerInterface->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
         return $this->render('femme/vetements/sweatshirts.html.twig', [
             'articles' => $articlesFemme
         ]);
@@ -72,8 +72,8 @@ class FemmeController extends AbstractController
     #[Route('/femme/vêtements/vestes', name: 'femme-vestes')]
     public function femmeVestes(Request $request, EntityManagerInterface $entityManagerInterface): Response
     {
-        $femmeGenre = $this->getDoctrine()->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
-        $articlesFemme = $this->getDoctrine()->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
+        $femmeGenre =$entityManagerInterface->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
+        $articlesFemme =$entityManagerInterface->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
         return $this->render('femme/vetements/vestes.html.twig', [
             'articles' => $articlesFemme
         ]);
@@ -81,8 +81,8 @@ class FemmeController extends AbstractController
     #[Route('/femme/vêtements/chemises', name: 'femme-chemises')]
     public function femmeChemises(Request $request, EntityManagerInterface $entityManagerInterface): Response
     {
-        $femmeGenre = $this->getDoctrine()->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
-        $articlesFemme = $this->getDoctrine()->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
+        $femmeGenre =$entityManagerInterface->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
+        $articlesFemme =$entityManagerInterface->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
         return $this->render('femme/vetements/chemises.html.twig', [
             'articles' => $articlesFemme
         ]);
@@ -90,8 +90,8 @@ class FemmeController extends AbstractController
     #[Route('/femme/vêtements/t-shirts', name: 'femme-t-shirts')]
     public function femmeTshirts(Request $request, EntityManagerInterface $entityManagerInterface): Response
     {
-        $femmeGenre = $this->getDoctrine()->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
-        $articlesFemme = $this->getDoctrine()->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
+        $femmeGenre =$entityManagerInterface->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
+        $articlesFemme =$entityManagerInterface->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
         return $this->render('femme/vetements/tshirts.html.twig', [
             'articles' => $articlesFemme
         ]);
@@ -99,8 +99,8 @@ class FemmeController extends AbstractController
     #[Route('/femme/vêtements/jeans', name: 'femme-jeans')]
     public function femmeJeans(Request $request, EntityManagerInterface $entityManagerInterface): Response
     {
-        $femmeGenre = $this->getDoctrine()->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
-        $articlesFemme = $this->getDoctrine()->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
+        $femmeGenre =$entityManagerInterface->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
+        $articlesFemme =$entityManagerInterface->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
         return $this->render('femme/vetements/jeans.html.twig', [
             'articles' => $articlesFemme
         ]);
@@ -108,8 +108,8 @@ class FemmeController extends AbstractController
     #[Route('/femme/vêtements/pantalon', name: 'femme-pantalons')]
     public function femmePantalons(Request $request, EntityManagerInterface $entityManagerInterface): Response
     {
-        $femmeGenre = $this->getDoctrine()->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
-        $articlesFemme = $this->getDoctrine()->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
+        $femmeGenre =$entityManagerInterface->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
+        $articlesFemme =$entityManagerInterface->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
         return $this->render('femme/vetements/pantalons.html.twig', [
             'articles' => $articlesFemme
         ]);
@@ -117,8 +117,8 @@ class FemmeController extends AbstractController
     #[Route('/femme/vêtements/shorts', name: 'femme-shorts')]
     public function femmeShorts(Request $request, EntityManagerInterface $entityManagerInterface): Response
     {
-        $femmeGenre = $this->getDoctrine()->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
-        $articlesFemme = $this->getDoctrine()->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
+        $femmeGenre =$entityManagerInterface->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
+        $articlesFemme =$entityManagerInterface->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
         return $this->render('femme/vetements/shorts.html.twig', [
             'articles' => $articlesFemme
         ]);
@@ -126,8 +126,8 @@ class FemmeController extends AbstractController
     #[Route('/femme/vêtements/joggings', name: 'femme-joggings')]
     public function femmeJoggings(Request $request, EntityManagerInterface $entityManagerInterface): Response
     {
-        $femmeGenre = $this->getDoctrine()->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
-        $articlesFemme = $this->getDoctrine()->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
+        $femmeGenre =$entityManagerInterface->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
+        $articlesFemme =$entityManagerInterface->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
         return $this->render('femme/vetements/joggings.html.twig', [
             'articles' => $articlesFemme
         ]);
@@ -135,8 +135,8 @@ class FemmeController extends AbstractController
     #[Route('/femme/vêtements/sous-vêtements', name: 'femme-sous-vêtements')]
     public function femmeSousVetements(Request $request, EntityManagerInterface $entityManagerInterface): Response
     {
-        $femmeGenre = $this->getDoctrine()->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
-        $articlesFemme = $this->getDoctrine()->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
+        $femmeGenre =$entityManagerInterface->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
+        $articlesFemme =$entityManagerInterface->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
         return $this->render('femme/vetements/sousvetements.html.twig', [
             'articles' => $articlesFemme
         ]);
@@ -144,8 +144,8 @@ class FemmeController extends AbstractController
     #[Route('/femme/vêtements/chaussettes', name: 'femme-chaussettes')]
     public function femmeChaussettes(Request $request, EntityManagerInterface $entityManagerInterface): Response
     {
-        $femmeGenre = $this->getDoctrine()->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
-        $articlesFemme = $this->getDoctrine()->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
+        $femmeGenre =$entityManagerInterface->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
+        $articlesFemme =$entityManagerInterface->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
         return $this->render('femme/vetements/chaussettes.html.twig', [
             'articles' => $articlesFemme
         ]);
@@ -153,8 +153,8 @@ class FemmeController extends AbstractController
     #[Route('/femme/vêtements/jupes', name: 'femme-jupes')]
     public function femmeJupes(Request $request, EntityManagerInterface $entityManagerInterface): Response
     {
-        $femmeGenre = $this->getDoctrine()->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
-        $articlesFemme = $this->getDoctrine()->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
+        $femmeGenre =$entityManagerInterface->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
+        $articlesFemme =$entityManagerInterface->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
         return $this->render('femme/vetements/sousvetements.html.twig', [
             'articles' => $articlesFemme
         ]);
@@ -162,8 +162,8 @@ class FemmeController extends AbstractController
     #[Route('/femme/vêtements/robes', name: 'femme-robes')]
     public function femmeRobes(Request $request, EntityManagerInterface $entityManagerInterface): Response
     {
-        $femmeGenre = $this->getDoctrine()->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
-        $articlesFemme = $this->getDoctrine()->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
+        $femmeGenre =$entityManagerInterface->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
+        $articlesFemme =$entityManagerInterface->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
         return $this->render('femme/vetements/chaussettes.html.twig', [
             'articles' => $articlesFemme
         ]);
@@ -171,8 +171,8 @@ class FemmeController extends AbstractController
     #[Route('/femme/vêtements/nike', name: 'femme-nike')]
     public function femmeNike(Request $request, EntityManagerInterface $entityManagerInterface): Response
     {
-        $femmeGenre = $this->getDoctrine()->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
-        $articlesFemme = $this->getDoctrine()->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
+        $femmeGenre =$entityManagerInterface->getRepository(Genre::class)->findBy(['libelle' => 'Femme']);
+        $articlesFemme =$entityManagerInterface->getRepository(Article::class)->findBy(['genre' => $femmeGenre ]);
         return $this->render('femme/nike.html.twig', [
             'articles' => $articlesFemme
         ]);

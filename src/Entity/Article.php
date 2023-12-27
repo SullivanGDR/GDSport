@@ -7,26 +7,39 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 
+#[ApiResource(operations:[
+    new GetCollection(normalizationContext:['groups'=>'article:list']),
+    new Get(normalizationContext:['groups'=>'article:item'])
+])]
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 class Article
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['article:list','article:item'])]
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups(['article:list','article:item'])]
     private ?int $prix = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['article:list','article:item'])]
     private ?string $designation = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['article:list','article:item'])]
     private ?string $description = null;
 
     #[ORM\ManyToOne(inversedBy: 'articles')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['article:list','article:item'])]
     private ?Genre $genre = null;
 
     #[ORM\ManyToOne(inversedBy: 'articles')]
@@ -35,12 +48,15 @@ class Article
 
     #[ORM\ManyToOne(inversedBy: 'articles')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['article:list','article:item'])]
     private ?Type $type = null;
 
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: ImagesArticle::class, orphanRemoval: true)]
+    #[Groups(['article:list','article:item'])]
     private Collection $image;
 
     #[ORM\Column]
+    #[Groups(['article:list','article:item'])]
     private ?int $nbFavoris = null;
 
     #[ORM\OneToMany(mappedBy: 'produit', targetEntity: Ajouter::class)]
@@ -50,15 +66,19 @@ class Article
     private Collection $ajoutCommandes;
 
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: ArticleTaille::class, orphanRemoval: true)]
+    #[Groups(['article:list','article:item'])]
     private Collection $tailles;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['article:list','article:item'])]
     private ?string $marque = null;
 
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Avis::class)]
+    #[Groups(['article:list','article:item'])]
     private Collection $avis;
 
     #[ORM\Column]
+    #[Groups(['article:list','article:item'])]
     private ?float $note = null;
 
     public function __construct()
