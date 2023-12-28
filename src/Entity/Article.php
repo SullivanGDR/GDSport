@@ -11,11 +11,15 @@ use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
 
 #[ApiResource(operations:[
     new GetCollection(normalizationContext:['groups'=>'article:list']),
     new Get(normalizationContext:['groups'=>'article:item'])
 ])]
+#[ApiFilter(BooleanFilter::class, properties: ['tendance'])]
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 class Article
 {
@@ -41,10 +45,6 @@ class Article
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['article:list','article:item','user:list','user:item'])]
     private ?Genre $genre = null;
-
-    #[ORM\ManyToOne(inversedBy: 'articles')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Tendance $tendance = null;
 
     #[ORM\ManyToOne(inversedBy: 'articles')]
     #[ORM\JoinColumn(nullable: false)]
@@ -80,6 +80,10 @@ class Article
     #[ORM\Column]
     #[Groups(['article:list','article:item'])]
     private ?float $note = null;
+
+    #[ORM\Column]
+    #[Groups(['article:list','article:item'])]
+    private ?bool $tendance = null;
 
     public function __construct()
     {
@@ -139,18 +143,6 @@ class Article
     public function setGenre(?Genre $genre): self
     {
         $this->genre = $genre;
-
-        return $this;
-    }
-
-    public function getTendance(): ?Tendance
-    {
-        return $this->tendance;
-    }
-
-    public function setTendance(?Tendance $tendance): self
-    {
-        $this->tendance = $tendance;
 
         return $this;
     }
@@ -349,6 +341,18 @@ class Article
     public function setNote(float $note): self
     {
         $this->note = $note;
+
+        return $this;
+    }
+
+    public function isTendance(): ?bool
+    {
+        return $this->tendance;
+    }
+
+    public function setTendance(bool $tendance): static
+    {
+        $this->tendance = $tendance;
 
         return $this;
     }

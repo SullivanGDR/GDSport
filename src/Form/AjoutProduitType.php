@@ -14,7 +14,6 @@ use Symfony\Component\Validator\Constraints\File;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\Article;
 use App\Entity\Genre;
-use App\Entity\Tendance;
 use App\Entity\Type;
 
 class AjoutProduitType extends AbstractType
@@ -37,10 +36,13 @@ class AjoutProduitType extends AbstractType
                 'choice_label' => 'libelle',
                 'attr' => ['class'=> 'form-control border border-dark bg-white'], 'label_attr' => ['class'=> 'fw-bold']
             ])
-            ->add('tendance', EntityType::class, [
-                'class' => Tendance::class,
-                'choice_label' => 'yesorno',
-                'attr' => ['class'=> 'form-control border border-dark bg-white'], 'label_attr' => ['class'=> 'fw-bold']
+            ->add('tendance', ChoiceType::class, [
+                'choices' => [
+                    'Article en tendance ?' => [
+                        'Oui' => '1',
+                        'Non' => '0',
+                    ]
+                ], 'attr' => ['class'=> 'form-control border border-dark bg-white'], 'label_attr' => ['class'=> 'fw-bold']
             ])
             ->add('type', EntityType::class, [
                 'class' => Type::class,

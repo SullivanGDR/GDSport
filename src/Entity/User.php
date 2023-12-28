@@ -52,22 +52,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['user:list','user:item'])]
     private ?string $prenom = null;
 
-    #[ORM\Column(length: 100)]
-    #[Groups(['user:list','user:item'])]
-    private ?string $adresse = null;
-
-    #[ORM\Column(length: 50)]
-    #[Groups(['user:list','user:item'])]
-    private ?string $pays = null;
-
-    #[ORM\Column(length: 50)]
-    #[Groups(['user:list','user:item'])]
-    private ?string $ville = null;
-
-    #[ORM\Column(length: 5)]
-    #[Groups(['user:list','user:item'])]
-    private ?string $codePostal = null;
-
     #[ORM\ManyToMany(targetEntity: Article::class, inversedBy: 'users')]
     #[Groups(['user:list','user:item'])]
     private Collection $Favoris;
@@ -85,6 +69,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Avis::class, orphanRemoval: true)]
     private Collection $avis;
+
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $adresse = null;
+
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $pays = null;
+
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $ville = null;
+
+    #[ORM\Column(length: 5, nullable: true)]
+    private ?string $codePostal = null;
 
     public function __construct()
     {
@@ -218,54 +214,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getAdresse(): ?string
-    {
-        return $this->adresse;
-    }
-
-    public function setAdresse(string $adresse): self
-    {
-        $this->adresse = $adresse;
-
-        return $this;
-    }
-
-    public function getPays(): ?string
-    {
-        return $this->pays;
-    }
-
-    public function setPays(string $pays): self
-    {
-        $this->pays = $pays;
-
-        return $this;
-    }
-
-    public function getVille(): ?string
-    {
-        return $this->ville;
-    }
-
-    public function setVille(string $ville): self
-    {
-        $this->ville = $ville;
-
-        return $this;
-    }
-
-    public function getCodePostal(): ?string
-    {
-        return $this->codePostal;
-    }
-
-    public function setCodePostal(string $codePostal): self
-    {
-        $this->codePostal = $codePostal;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Article>
      */
@@ -375,6 +323,54 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $avi->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAdresse(): ?string
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(?string $adresse): static
+    {
+        $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    public function getPays(): ?string
+    {
+        return $this->pays;
+    }
+
+    public function setPays(?string $pays): static
+    {
+        $this->pays = $pays;
+
+        return $this;
+    }
+
+    public function getVille(): ?string
+    {
+        return $this->ville;
+    }
+
+    public function setVille(?string $ville): static
+    {
+        $this->ville = $ville;
+
+        return $this;
+    }
+
+    public function getCodePostal(): ?string
+    {
+        return $this->codePostal;
+    }
+
+    public function setCodePostal(?string $codePostal): static
+    {
+        $this->codePostal = $codePostal;
 
         return $this;
     }
