@@ -12,11 +12,14 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\GetCollection;
+use App\State\UserStateProcessor;
 
 #[ApiResource(operations:[
     new GetCollection(normalizationContext:['groups'=>'user:list']),
-    new Get(normalizationContext:['groups'=>'user:item'])
+    new Get(normalizationContext:['groups'=>'user:item']),
+    new Post(processor: UserStateProcessor::class),
 ])]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
