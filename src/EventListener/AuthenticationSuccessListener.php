@@ -21,9 +21,14 @@ class AuthenticationSuccessListener{
 
     $data['data'] = array(
         'roles' => $user->getRoles(),
-        'id' => $user->getId(), 
+        'id' => $user->getId(),
+        'email' => $user->getEmail(), 
         'nom' => $user->getNom(),
         'prenom' => $user->getPrenom(),
+        'adresse' => $user->getAdresse(),
+        'pays' => $user->getPays(),
+        'ville' => $user->getVille(),
+        'codePostal' => $user->getCodePostal(),
     );
 
     $event->setData($data);

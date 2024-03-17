@@ -12,13 +12,15 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\GetCollection;
 use App\State\UserStateProcessor;
 
 #[ApiResource(operations:[
     new GetCollection(normalizationContext:['groups'=>'user:list']),
-    new Get(normalizationContext:['groups'=>'user:item']),
+    new Get(normalizationContext:['groups'=>'user:item'],security:"is_granted('ROLE_ADMIN') or object==user"),
+    new Delete(security:"is_granted('ROLE_ADMIN') or object==user"),
     new Post(processor: UserStateProcessor::class),
 ])]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
