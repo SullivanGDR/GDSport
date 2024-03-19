@@ -14,14 +14,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\GetCollection;
 use App\State\UserStateProcessor;
 use App\Controller\AddFavoriAPIController;
 use App\Controller\DelFavoriAPIController;
 
 #[ApiResource(operations:[
-    new GetCollection(normalizationContext:['groups'=>'user:list']),
+    new GetCollection(normalizationContext:['groups'=>'user:list'],security:"is_granted('ROLE_ADMIN')"),
     new Get(normalizationContext:['groups'=>'user:item'],security:"is_granted('ROLE_ADMIN') or object==user"),
+    new Patch(normalizationContext:['groups'=>'user:item'],security:"is_granted('ROLE_ADMIN') or object==user",processor: UserStateProcessor::class),
     new Delete(security:"is_granted('ROLE_ADMIN') or object==user"),
     new Post(processor: UserStateProcessor::class),
     new Post(
@@ -88,15 +90,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $avis;
 
     #[ORM\Column(length: 100, nullable: true)]
+    #[Groups(['user:list','user:item'])]
     private ?string $adresse = null;
 
     #[ORM\Column(length: 50, nullable: true)]
+    #[Groups(['user:list','user:item'])]
     private ?string $pays = null;
 
     #[ORM\Column(length: 50, nullable: true)]
+    #[Groups(['user:list','user:item'])]
     private ?string $ville = null;
 
     #[ORM\Column(length: 5, nullable: true)]
+    #[Groups(['user:list','user:item'])]
     private ?string $codePostal = null;
 
     public function __construct()
