@@ -4,30 +4,46 @@ namespace App\Entity;
 
 use App\Repository\AjoutCommandeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
 
+#[ApiResource(operations:[
+    new GetCollection(normalizationContext:['groups'=>'ajoutCommande:list']),
+    new Get(normalizationContext:['groups'=>'ajoutCommande:item']),
+    new Post(),
+])]
 #[ORM\Entity(repositoryClass: AjoutCommandeRepository::class)]
 class AjoutCommande
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['ajoutCommande:list','ajoutCommande:item'])]
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups(['ajoutCommande:list','ajoutCommande:item'])]
     private ?int $quantite = null;
 
     #[ORM\Column]
+    #[Groups(['ajoutCommande:list','ajoutCommande:item'])]
     private ?float $prixUnit = null;
 
     #[ORM\ManyToOne(inversedBy: 'ajoutCommandes')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['ajoutCommande:list','ajoutCommande:item'])]
     private ?Commandes $Commande = null;
 
     #[ORM\ManyToOne(inversedBy: 'ajoutCommandes')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['ajoutCommande:list','ajoutCommande:item'])]
     private ?Article $Article = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['ajoutCommande:list','ajoutCommande:item'])]
     private ?string $taille = null;
 
     public function getId(): ?int

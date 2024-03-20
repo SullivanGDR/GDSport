@@ -8,17 +8,27 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
 
+#[ApiResource(operations:[
+    new GetCollection(normalizationContext:['groups'=>'commande:list']),
+    new Get(normalizationContext:['groups'=>'commande:item']),
+    new Post(),
+])]
 #[ORM\Entity(repositoryClass: CommandesRepository::class)]
 class Commandes
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['user:list','user:item'])]
+    #[Groups(['commande:list','commande:item','user:list','user:item'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'commandes')]
+    #[Groups(['commande:list','commande:item','user:list','user:item'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $User = null;
 
@@ -26,17 +36,19 @@ class Commandes
     private Collection $ajoutCommandes;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups(['user:list','user:item'])]
+    #[Groups(['commande:list','commande:item','user:list','user:item'])]
     private ?\DateTimeInterface $DateCommande = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['commande:list','commande:item','user:list','user:item'])]
     private ?string $livraison = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['user:list','user:item'])]
+    #[Groups(['commande:list','commande:item','user:list','user:item'])]
     private ?\DateTimeInterface $DateLivraison = null;
 
     #[ORM\Column]
+    #[Groups(['commande:list','commande:item','user:list','user:item'])]
     private ?float $totalPrix = null;
 
     public function __construct()
