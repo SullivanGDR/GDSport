@@ -29,6 +29,7 @@ class AuthenticationSuccessListener{
         'pays' => $user->getPays(),
         'ville' => $user->getVille(),
         'codePostal' => $user->getCodePostal(),
+        'nbFav'=> count($user->getFavoris()),
     );
 
     $event->setData($data);
