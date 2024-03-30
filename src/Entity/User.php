@@ -80,7 +80,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Panier $panier = null;
 
     #[ORM\OneToMany(mappedBy: 'User', cascade : ['persist'], targetEntity: Commandes::class, orphanRemoval: true)]
-    #[Groups(['user:list','user:item'])]
     private Collection $commandes;
 
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]

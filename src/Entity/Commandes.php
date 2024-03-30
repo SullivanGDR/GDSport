@@ -12,23 +12,26 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 
 #[ApiResource(operations:[
     new GetCollection(normalizationContext:['groups'=>'commande:list']),
     new Get(normalizationContext:['groups'=>'commande:item']),
     new Post(),
 ])]
+#[ApiFilter(SearchFilter::class, properties: ['User.id' => 'exact'])]
 #[ORM\Entity(repositoryClass: CommandesRepository::class)]
 class Commandes
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['commande:list','commande:item','user:list','user:item'])]
+    #[Groups(['commande:list','commande:item'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'commandes')]
-    #[Groups(['commande:list','commande:item','user:list','user:item'])]
+    #[Groups(['commande:list','commande:item'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $User = null;
 
@@ -36,19 +39,19 @@ class Commandes
     private Collection $ajoutCommandes;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups(['commande:list','commande:item','user:list','user:item'])]
+    #[Groups(['commande:list','commande:item'])]
     private ?\DateTimeInterface $DateCommande = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['commande:list','commande:item','user:list','user:item'])]
+    #[Groups(['commande:list','commande:item'])]
     private ?string $livraison = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['commande:list','commande:item','user:list','user:item'])]
+    #[Groups(['commande:list','commande:item'])]
     private ?\DateTimeInterface $DateLivraison = null;
 
     #[ORM\Column]
-    #[Groups(['commande:list','commande:item','user:list','user:item'])]
+    #[Groups(['commande:list','commande:item'])]
     private ?float $totalPrix = null;
 
     public function __construct()
