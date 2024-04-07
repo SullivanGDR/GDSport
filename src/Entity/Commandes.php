@@ -36,6 +36,7 @@ class Commandes
     private ?User $User = null;
 
     #[ORM\OneToMany(mappedBy: 'Commande', targetEntity: AjoutCommande::class, orphanRemoval: true)]
+    #[Groups(['commande:list','commande:item'])]
     private Collection $ajoutCommandes;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]

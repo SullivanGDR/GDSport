@@ -26,15 +26,15 @@ class Article
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['article:list','article:item','user:list','user:item'])]
+    #[Groups(['article:list','article:item','user:list','user:item','commande:list','commande:item'])]
     private ?int $id = null;
 
     #[ORM\Column]
-    #[Groups(['article:list','article:item','user:list','user:item'])]
+    #[Groups(['article:list','article:item','user:list','user:item','commande:list','commande:item'])]
     private ?int $prix = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['article:list','article:item','user:list','user:item'])]
+    #[Groups(['article:list','article:item','user:list','user:item','commande:list','commande:item'])]
     private ?string $designation = null;
 
     #[ORM\Column(type: Types::TEXT)]
@@ -52,7 +52,7 @@ class Article
     private ?Type $type = null;
 
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: ImagesArticle::class, orphanRemoval: true)]
-    #[Groups(['article:list','article:item','user:list','user:item'])]
+    #[Groups(['article:list','article:item','user:list','user:item','commande:list','commande:item'])]
     private Collection $image;
 
     #[ORM\Column]

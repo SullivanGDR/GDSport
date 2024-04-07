@@ -21,15 +21,15 @@ class AjoutCommande
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['ajoutCommande:list','ajoutCommande:item'])]
+    #[Groups(['ajoutCommande:list','ajoutCommande:item','commande:list','commande:item'])]
     private ?int $id = null;
 
     #[ORM\Column]
-    #[Groups(['ajoutCommande:list','ajoutCommande:item'])]
+    #[Groups(['ajoutCommande:list','ajoutCommande:item','commande:list','commande:item'])]
     private ?int $quantite = null;
 
     #[ORM\Column]
-    #[Groups(['ajoutCommande:list','ajoutCommande:item'])]
+    #[Groups(['ajoutCommande:list','ajoutCommande:item','commande:list','commande:item'])]
     private ?float $prixUnit = null;
 
     #[ORM\ManyToOne(inversedBy: 'ajoutCommandes')]
@@ -39,11 +39,11 @@ class AjoutCommande
 
     #[ORM\ManyToOne(inversedBy: 'ajoutCommandes')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['ajoutCommande:list','ajoutCommande:item'])]
+    #[Groups(['ajoutCommande:list','ajoutCommande:item','commande:list','commande:item'])]
     private ?Article $Article = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['ajoutCommande:list','ajoutCommande:item'])]
+    #[Groups(['ajoutCommande:list','ajoutCommande:item','commande:list','commande:item'])]
     private ?string $taille = null;
 
     public function getId(): ?int

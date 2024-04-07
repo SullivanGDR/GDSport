@@ -15,7 +15,7 @@ class ImagesArticle
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['article:list','article:item','user:list','user:item'])]
+    #[Groups(['article:list','article:item','user:list','user:item','commande:list','commande:item'])]
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'image', cascade: ['persist'])]
